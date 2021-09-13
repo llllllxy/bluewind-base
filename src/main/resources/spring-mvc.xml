@@ -67,8 +67,7 @@
         <property name="templateMode" value="HTML"/>
         <property name="cacheable" value="false"/>
     </bean>
-    <bean id="templateEngine"
-          class="org.thymeleaf.spring5.SpringTemplateEngine">
+    <bean id="templateEngine" class="org.thymeleaf.spring5.SpringTemplateEngine">
         <property name="templateResolver" ref="templateResolver"/>
     </bean>
 
@@ -76,7 +75,6 @@
         <property name="templateEngine" ref="templateEngine"/>
         <property name="characterEncoding" value="UTF-8"/>
     </bean>
-
 
     <!--配置静态资源过滤，不然静态资源比如css是访问不到的-->
     <mvc:default-servlet-handler/>
