@@ -247,8 +247,7 @@
       <plugin>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-maven-plugin</artifactId>
-        <!--<version>9.0.0.v20130308</version>-->
-        <version>9.2.7.v20150116</version>
+        <version>9.4.31.v20200723</version>
         <configuration>
           <webApp>
             <contextPath>/bluewind-base</contextPath>
