@@ -1,4 +1,4 @@
-package org.bluewind.base.common.util.spring;
+package com.bluewind.base.common.util.spring;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ListableBeanFactory;

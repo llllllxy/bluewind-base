@@ -12,8 +12,8 @@
        http://www.springframework.org/schema/aop
        https://www.springframework.org/schema/aop/spring-aop.xsd">
 
-    <!--配置扫描的包，扫描org.bluewind.base.**.controller下面得所有类以及所有子包下面的所有类-->
-    <context:component-scan base-package="org.bluewind.base.**.controller" use-default-filters="false">
+    <!--配置扫描的包，com.bluewind.base.**.controller下面得所有类以及所有子包下面的所有类-->
+    <context:component-scan base-package="com.bluewind.base.**.controller" use-default-filters="false">
         <!--只扫描controller,实际开发中最好用这种方式来写，这边MVC就只扫描controller，就不会IOC那边冲突，否则事务会被覆盖，IOC那边就要排除这个controller-->
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>

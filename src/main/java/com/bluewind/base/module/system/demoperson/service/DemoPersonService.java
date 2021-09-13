@@ -1,16 +1,13 @@
-package org.bluewind.base.module.system.demoperson.mapper;
-
-import org.springframework.stereotype.Repository;
+package com.bluewind.base.module.system.demoperson.service;
 
 import java.util.List;
 import java.util.Map;
 
 /**
  * @author liuxingyu01
- * @date 2021-09-12-21:15
+ * @date 2021-09-12-21:14
  **/
-@Repository
-public interface DemoPersonMapper {
+public interface DemoPersonService {
     /**
      * 获取所有用户
      * @param userId

@@ -1,6 +1,6 @@
-package org.bluewind.base.module.system.demoperson.service;
+package com.bluewind.base.module.system.demoperson.service;
 
-import org.bluewind.base.module.system.demoperson.mapper.DemoPersonMapper;
+import com.bluewind.base.module.system.demoperson.mapper.DemoPersonMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

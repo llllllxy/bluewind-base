@@ -1,8 +1,8 @@
-package org.bluewind.base.module.system.demoperson.controller;
+package com.bluewind.base.module.system.demoperson.controller;
 
-import org.bluewind.base.common.annotation.LogAround;
-import org.bluewind.base.common.util.redis.RedisUtils;
-import org.bluewind.base.module.system.demoperson.service.DemoPersonService;
+import com.bluewind.base.common.annotation.LogAround;
+import com.bluewind.base.common.util.redis.RedisUtils;
+import com.bluewind.base.module.system.demoperson.service.DemoPersonService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
-package org.bluewind.base.common.aspect;
+package com.bluewind.base.common.aspect;
 
-import org.bluewind.base.common.annotation.LogAround;
+import com.bluewind.base.common.annotation.LogAround;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -47,7 +47,7 @@ public class LogAroundAspectAdvice {
      * 第三个*表示类中的任意方法
      * 最后面的两个点表示方法参数任意，个数任意，类型任意
      */
-    @Pointcut("execution(* org.bluewind.base..*.*(..))")
+    @Pointcut("execution(* com.bluewind.base..*.*(..))")
     public void anyMethod() {
 
     }

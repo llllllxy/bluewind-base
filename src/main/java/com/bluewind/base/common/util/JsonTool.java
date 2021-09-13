@@ -1,4 +1,4 @@
-package org.bluewind.base.common.util;
+package com.bluewind.base.common.util;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;

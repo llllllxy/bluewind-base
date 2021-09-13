@@ -1,4 +1,4 @@
-package org.bluewind.base.common.util.redis;
+package com.bluewind.base.common.util.redis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-import org.bluewind.base.module.system.demoperson.service.DemoPersonService;
+import com.bluewind.base.module.system.demoperson.service.DemoPersonService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

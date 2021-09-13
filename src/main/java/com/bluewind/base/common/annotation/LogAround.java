@@ -1,4 +1,4 @@
-package org.bluewind.base.common.annotation;
+package com.bluewind.base.common.annotation;
 
 import java.lang.annotation.*;
 
