@@ -1,7 +1,7 @@
 # bluewind-base
 
 #### 介绍
-bluewind-base
+bluewind-base，一个基于Spring5的Web开发脚手架，开箱即用
 
 #### 软件架构
 软件架构说明
