@@ -1,0 +1,15 @@
+.idea
+.classpath
+.project
+*.iml
+*.eml
+target
+*.log
+*.log.*
+.DS_Store
+*.cache
+*.lock
+/build/
+*.settings
+vcs.xml
+*.war

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.bluewind.base.module.system.demoperson.mapper.DemoPersonMapper">
+
+    <select id="getAllPerson" resultType="map" parameterType="java.lang.String">
+        select * from sm_user where user_id = #{_parameter}
+    </select>
+
+</mapper>

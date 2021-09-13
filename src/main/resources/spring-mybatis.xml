@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--属性文件的读取，这里读取数据库连接相关配置-->
+    <!--context:property-placeholder标签提供了一种优雅的外在化参数配置的方式，不过该标签在Spring配置文件中只能存在一份-->
+    <!--意思是property-placeholder只能配置一次，所以这里需要把所有的配置文件扫进去-->
+    <context:property-placeholder location="classpath*:*.properties" file-encoding="UTF-8"/>
+
+
+<!--    &lt;!&ndash;配置自动扫描，装载service，扫描org.bluewind.base.**.service下面得所有类以及所有子包下面的所有类&ndash;&gt;-->
+<!--    <context:component-scan base-package="org.bluewind.base.**.service" use-default-filters="true">-->
+<!--        &lt;!&ndash;这里要排除掉Controller的注解，Controller专门交给MVC去扫描，这样会就不会冲突&ndash;&gt;-->
+<!--        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+<!--    </context:component-scan>-->
+
+<!--    &lt;!&ndash;配置自动扫描，装载自定义切面aspect&ndash;&gt;-->
+<!--    <context:component-scan base-package="org.bluewind.base.**.aspect" use-default-filters="true">-->
+<!--        &lt;!&ndash;这里要排除掉Controller的注解，Controller专门交给MVC去扫描，这样会就不会冲突&ndash;&gt;-->
+<!--        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+<!--    </context:component-scan>-->
+
+<!--    &lt;!&ndash;配置自动扫描，装载配置类config&ndash;&gt;-->
+<!--    <context:component-scan base-package="org.bluewind.base.**.config" use-default-filters="true">-->
+<!--        &lt;!&ndash;这里要排除掉Controller的注解，Controller专门交给MVC去扫描，这样会就不会冲突&ndash;&gt;-->
+<!--        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
+<!--    </context:component-scan>-->
+
+
+    <!--配置自动扫描，扫描org.bluewind.base包下的所有类及其子包下的所有类（上面注释掉的仨是分类型分别扫描的，这里放到一起扫描，简单方便）-->
+    <context:component-scan base-package="org.bluewind.base" use-default-filters="true">
+        <!--这里要排除掉Controller的注解，Controller专门交给MVC去扫描，这样会就不会冲突-->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+
+    <!--配置数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <!--配置JDBC基础属性，即数据库连接相关配置-->
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+
+        <!--配置连接池的设置,这个是要根据真实项目情况来配置的，随着项目的发展会不断修改-->
+        <!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="1"/>
+        <property name="minIdle" value="1"/>
+        <property name="maxActive" value="20"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="60000"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <!-- mysql校验语句 -->
+        <property name="validationQuery" value="SELECT 1 "/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <!-- 配置监控统计拦截的filters -->
+        <property name="filters" value="stat"/>
+    </bean>
+
+    <!--
+        配置是MyBatis的SqlSessionFactory，这一块配置将Spring和Mybatis整合到了一起
+        如果不配置这里，则mapper接口只能通过SqlSession来获取，十分麻烦。这里配置好后就可以通过Spring IoC来获取mapper接口了
+    -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--指定数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--加载mybatis全局设置，classpath即我们的资源路径resources-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!--配置Mybatis的映射xml文件路径-->
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:mapper/*/*Mapper.xml</value>
+                <value>classpath:mapper/*.Mapper.xml</value>
+                <value>classpath*:org/bluewind/**/mapper/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <!--指定Mybatis的mapper接口扫描包-->
+    <!--注意！！！如果用的是tk.mybatis自动生成的mapper接口，一定要将org.mybatis.改成tk.mybatis-->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--指定刚才我们配置好的sqlSessionFactory-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <!--指定mapper接口扫描包-->
+        <property name="basePackage" value="org.bluewind.base.**.mapper"/>
+    </bean>
+
+    <!--配置事务管理器，如果不配置这个，不启动事务扫描的话，那么发生了异常也不会触发回滚-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--还得指定数据源-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--启动事务的扫描-->
+    <tx:annotation-driven/>
+</beans>

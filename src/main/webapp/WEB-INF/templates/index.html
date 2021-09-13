@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1 th:text="${message}"></h1>
+
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>序号</th>
+        <th>user_id</th>
+        <th>user_name</th>
+        <th>password</th>
+        <th>creat_time</th>
+        <th>update_time</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="person,personStat :${personList}">
+        <th th:text="${personStat.index}"></th>
+        <td th:text="${person.user_id}"></td>
+        <td th:text="${person.user_name}"></td>
+        <td th:text="${person.password}"></td>
+        <td th:text="${person.creat_time}"></td>
+        <td th:text="${person.update_time}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
