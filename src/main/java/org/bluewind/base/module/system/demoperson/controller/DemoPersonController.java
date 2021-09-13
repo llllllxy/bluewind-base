@@ -36,11 +36,11 @@ public class DemoPersonController {
     @ResponseBody
     public Object getAllPerson(@RequestParam(required = false,defaultValue = "",value = "userId") String userId,
                                @RequestHeader(required = false,defaultValue = "",value = "token") String token) {
-        logger.debug("getAllPerson.token ---  = " + token);
+        logger.info("getAllPerson.token ---  = " + token);
 
         List<Map> personList = demoPersonService.getAllPerson(userId);
 
-        redisUtils.set("token_token", "heiheihei");
+        redisUtils.set("token_token", personList);
 
         return personList;
     }
@@ -55,7 +55,7 @@ public class DemoPersonController {
     @RequestMapping(value = "/getPersonView",method = RequestMethod.GET)
     public String getPersonView(@RequestParam(required = false,defaultValue = "",value = "userId") String userId,
                                 Model model) {
-        logger.debug("getAllPerson.getPersonView ---取出redis  = " + redisUtils.get("token_token"));
+        logger.info("getAllPerson.getPersonView ---取出redis  = " + redisUtils.get("token_token"));
 
 
         List<Map> personList = demoPersonService.getAllPerson(userId);

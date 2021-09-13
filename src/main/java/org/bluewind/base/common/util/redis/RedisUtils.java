@@ -1,9 +1,10 @@
 package org.bluewind.base.common.util.redis;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -26,17 +27,15 @@ import java.util.concurrent.TimeUnit;
  *    redisUtils.set(key, value);
  *
  */
+@Component
 public class RedisUtils {
     final static Logger log = LoggerFactory.getLogger(RedisUtils.class);
 
+    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
-    public void setRedisTemplate(RedisTemplate<String, Object> redisTemplate) {
+    public RedisUtils(RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
-    }
-
-    public RedisTemplate<String, Object> getRedisTemplate() {
-        return this.redisTemplate;
     }
 
 

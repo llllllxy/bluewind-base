@@ -65,12 +65,6 @@
         </rollingPolicy>
     </appender>
 
-    <!--用来设置某一个包或具体的某一个类的日志打印级别-->
-    <logger name="org.bluewind.base" level="debug">
-        <!--添加append-->
-        <appender-ref ref="CONSOLE_LOG"/>
-    </logger>
-
     <!--必填标签，用来指定最基础的日志输出级别-->
     <root level="info">
         <!--添加append-->
