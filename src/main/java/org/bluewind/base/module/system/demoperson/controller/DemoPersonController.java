@@ -1,5 +1,6 @@
 package org.bluewind.base.module.system.demoperson.controller;
 
+import org.bluewind.base.common.annotation.LogAround;
 import org.bluewind.base.common.util.redis.RedisUtils;
 import org.bluewind.base.module.system.demoperson.service.DemoPersonService;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ public class DemoPersonController {
      * @param userId
      * @return
      */
+    @LogAround("getAllPerson")
     @RequestMapping(value = "/getAllPerson",method = RequestMethod.GET)
     @ResponseBody
     public Object getAllPerson(@RequestParam(required = false,defaultValue = "",value = "userId") String userId,
@@ -52,6 +54,7 @@ public class DemoPersonController {
      * @param userId
      * @return
      */
+    @LogAround("getPersonView")
     @RequestMapping(value = "/getPersonView",method = RequestMethod.GET)
     public String getPersonView(@RequestParam(required = false,defaultValue = "",value = "userId") String userId,
                                 Model model) {
