@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * @author liuxingyu01
  * @date 2021-09-14-19:53
+ * @description Swagger配置类
  **/
 public class SwaggerConfig extends Swagger2DocumentationConfiguration {
 

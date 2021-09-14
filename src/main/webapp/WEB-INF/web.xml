@@ -8,7 +8,9 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <!--spring和mybatis整合配置文件路径-->
-        <param-value>classpath:spring-mybatis.xml</param-value>
+        <param-value>
+            classpath:spring-mybatis.xml,classpath:spring-context.xml
+        </param-value>
     </context-param>
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -49,8 +51,7 @@
     </filter-mapping>
 
 
-
-    <!-- 4.配置使用logback日志 -->
+    <!--4.配置使用logback日志-->
     <context-param>
         <param-name>logbackConfigLocation</param-name>
         <param-value>classpath:logback.xml</param-value>
