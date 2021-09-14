@@ -3,6 +3,8 @@ package com.bluewind.base.module.system.demoperson.controller;
 import com.bluewind.base.common.annotation.LogAround;
 import com.bluewind.base.common.util.redis.RedisUtils;
 import com.bluewind.base.module.system.demoperson.service.DemoPersonService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import java.util.Map;
  * @author liuxingyu01
  * @date 2021-09-12-21:17
  **/
+@Api(value = "系统用户管理控制器", tags = "系统用户管理控制器")
 @Controller
 @RequestMapping("/demoperson")
 public class DemoPersonController {
@@ -33,6 +36,7 @@ public class DemoPersonController {
      * @param userId
      * @return
      */
+    @ApiOperation(value = "查询数据", notes = "查询数据")
     @LogAround("getAllPerson")
     @RequestMapping(value = "/getAllPerson",method = RequestMethod.GET)
     @ResponseBody
@@ -54,6 +58,7 @@ public class DemoPersonController {
      * @param userId
      * @return
      */
+    @ApiOperation(value = "查询页面", notes = "查询页面")
     @LogAround("getPersonView")
     @RequestMapping(value = "/getPersonView",method = RequestMethod.GET)
     public String getPersonView(@RequestParam(required = false,defaultValue = "",value = "userId") String userId,

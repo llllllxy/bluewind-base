@@ -80,4 +80,37 @@
     <mvc:default-servlet-handler/>
 
 
+    <bean id="swagger2Config" class="com.bluewind.base.common.config.SwaggerConfig"/>
+
+
+    <!-- 配置静态资源，不被DispatcherServlet处理，增加缓存时间10秒 -->
+    <mvc:resources mapping="/favicon.ico" location="/favicon.ico"/>
+    <mvc:resources mapping="/resources/**" location="/resources/" cache-period="10"/>
+    <mvc:resources mapping="/skin/**" location="/skin/" cache-period="10"/>
+    <mvc:resources mapping="/skins/**" location="/skins/" cache-period="10"/>
+    <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
+    <mvc:resources mapping="/swagger-ui.html" location="classpath:/META-INF/resources/"/>
+    <mvc:resources mapping="/doc.html" location="classpath:/META-INF/resources/"/>
+    <mvc:resources mapping="/global-login.html" location="classpath:/META-INF/resources/"/>
+
+
+    <!-- 拦截器的注册 -->
+<!--    <mvc:interceptors>-->
+<!--        <mvc:interceptor>-->
+<!--        </mvc:interceptor>-->
+<!--    </mvc:interceptors>-->
+
+
+    <!-- 配置跨域请求 -->
+    <mvc:cors>
+        <mvc:mapping path="/**"
+                     allowed-origins="http://localhost, http://10.10.10.64"
+                     allowed-methods="GET, HEAD, POST, PATCH, PUT, DELETE, OPTIONS"
+                     allowed-headers="ticket,digest,Origin,Accept,Content-Type,X-Requested-With,Transfer-Encoding,Date,status,Server"
+                     exposed-headers="ticket,digest,Origin,Accept,Content-Type,X-Requested-With,Transfer-Encoding,Date,status,Server"
+                     allow-credentials="true"
+                     max-age="3600" />
+        <mvc:mapping path="/resources/**" allowed-origins="*" />
+    </mvc:cors>
+
 </beans>
