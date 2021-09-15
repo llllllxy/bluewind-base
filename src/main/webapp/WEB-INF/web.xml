@@ -57,4 +57,9 @@
         <param-value>classpath:logback.xml</param-value>
     </context-param>
 
+    <!--5.session配置-->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+
 </web-app>
