@@ -9,7 +9,7 @@
         <param-name>contextConfigLocation</param-name>
         <!--spring和mybatis整合配置文件路径-->
         <param-value>
-            classpath:spring-mybatis.xml,classpath:spring-context.xml
+            classpath:spring-mybatis.xml,classpath:spring-context.xml,classpath:spring-threadpool.xml
         </param-value>
     </context-param>
     <listener>
