@@ -9,6 +9,9 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  * @author liuxingyu01
  * @date 2021-09-15-11:38
  * @description 动态数据源（数据源切换）
+ * 使用方法 1、在方法上加上注解@DataSource("slaveDataSource")
+ *         2、代码中手动切换 DynamicDataSource.setDataSource("pickDataSource");//设置数据源
+ *            使用完成后记得清除数据源 DynamicDataSource.clearDataSource(); //重置数据源
  **/
 public class DynamicDataSource extends AbstractRoutingDataSource {
     private final static Logger logger = LoggerFactory.getLogger(DynamicDataSource.class);
