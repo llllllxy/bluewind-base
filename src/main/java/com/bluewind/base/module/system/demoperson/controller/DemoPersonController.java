@@ -1,5 +1,6 @@
 package com.bluewind.base.module.system.demoperson.controller;
 
+import com.bluewind.base.common.annotation.DataSource;
 import com.bluewind.base.common.annotation.LogAround;
 import com.bluewind.base.common.util.redis.RedisUtils;
 import com.bluewind.base.module.system.demoperson.service.DemoPersonService;
@@ -58,6 +59,7 @@ public class DemoPersonController {
      * @param userId
      * @return
      */
+    @DataSource("slaveDataSource")
     @ApiOperation(value = "查询页面", notes = "查询页面")
     @LogAround("getPersonView")
     @RequestMapping(value = "/getPersonView",method = RequestMethod.GET)
