@@ -23,7 +23,7 @@
     <mybatis.version>3.4.6</mybatis.version>
     <mysql.version>5.1.47</mysql.version>
     <druid.version>1.1.12</druid.version>
-    <jackson.version>2.9.0</jackson.version>
+    <jackson.version>2.10.5</jackson.version>
     <aspectj.version>1.9.4</aspectj.version>
     <cglib.version>3.1</cglib.version>
 
@@ -32,6 +32,7 @@
     <commons-text.version>1.9</commons-text.version>
     <commons-collections4.version>4.4</commons-collections4.version>
     <commons-beanutils.version>1.9.4</commons-beanutils.version>
+    <httpclient.version>4.5.13</httpclient.version>
   </properties>
 
   <dependencies>
@@ -204,6 +205,13 @@
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
       <version>${commons-beanutils.version}</version>
+    </dependency>
+
+    <!-- httpclient -->
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <version>${httpclient.version}</version>
     </dependency>
 
 

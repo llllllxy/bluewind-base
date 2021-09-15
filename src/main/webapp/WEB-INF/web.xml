@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
          version="3.1">
 
-    <!--1.配置Spring IOC容器的创建，如果不配置这个，Mybatis就在web应用里无法使用-->
+    <!--1.配置Spring IOC容器的创建-->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <!--spring和mybatis整合配置文件路径-->
@@ -57,7 +57,7 @@
         <param-value>classpath:logback.xml</param-value>
     </context-param>
 
-    <!--5.session配置-->
+    <!--5.配置session超时时间-->
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>
