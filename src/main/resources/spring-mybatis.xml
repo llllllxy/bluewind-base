@@ -113,6 +113,6 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <!--启动事务的扫描-->
+    <!--启动注解事务-->
     <tx:annotation-driven/>
 </beans>
