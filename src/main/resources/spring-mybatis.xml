@@ -109,7 +109,7 @@
 
     <!--配置事务管理器，如果不配置这个，不启动事务扫描的话，那么发生了异常也不会触发回滚-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <!--还得指定数据源-->
+        <!--还得数据源-->
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
