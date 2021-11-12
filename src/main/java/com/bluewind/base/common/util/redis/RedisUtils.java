@@ -15,18 +15,10 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Redis工具类2
- *
- * @author WangFan
- * @date 2018-02-24 下午03:09:50
- * @version 1.1 (Gitee文档: https://gitee.com/nmwork/RedisUtil/tree/master )
- * 使用方法：注入
- *    @Autowired
- *    private RedisUtils redisUtils;
- *    然后
- *    redisUtils.set(key, value);
- *
- */
+ * @author liuxingyu01
+ * @date 2021-09-13-13:39
+ * @description Redis工具类
+ **/
 @Component
 public class RedisUtils {
     final static Logger log = LoggerFactory.getLogger(RedisUtils.class);
