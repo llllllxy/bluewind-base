@@ -92,7 +92,6 @@
         <property name="mapperLocations">
             <list>
                 <value>classpath:mapper/*/*Mapper.xml</value>
-                <value>classpath:mapper/*.Mapper.xml</value>
                 <value>classpath*:com/bluewind/**/mapper/*Mapper.xml</value>
             </list>
         </property>
