@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime" version="2.0">
+    <!-- 服务路径http://网站路径/url-pattern -->
+    <!-- implementation:发布接口的实现类 -->
+    <endpoint name="myWebService" implementation="com.bluewind.base.module.webservice.WebServiceExampleImpl" url-pattern="/anon/myWebService"/>
+</endpoints>

@@ -27,7 +27,6 @@
     <aspectj.version>1.9.4</aspectj.version>
     <cglib.version>3.1</cglib.version>
 
-
     <commons-fileupload.version>1.3.3</commons-fileupload.version>
     <commons-text.version>1.9</commons-text.version>
     <commons-collections4.version>4.4</commons-collections4.version>
@@ -136,6 +135,13 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>3.1.0</version>
       <scope>provided</scope>
+    </dependency>
+
+    <!-- webservice依赖包 -->
+    <dependency>
+      <groupId>com.sun.xml.ws</groupId>
+      <artifactId>jaxws-rt</artifactId>
+      <version>2.2.10</version>
     </dependency>
 
     <!-- thymeleaf 模板引擎依赖包 -->

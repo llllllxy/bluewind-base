@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author liuxingyu01
  * @date 2021-09-13-13:51
- * @description aop切面，用于输出方法的进入和结束日志
+ * @description 日志记录aop切面，用于输出方法的进入和结束日志
  **/
 @Component
 @Aspect

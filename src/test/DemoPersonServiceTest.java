@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @date 2021-09-12-21:18
  **/
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:spring-mybatis.xml"})
+@ContextConfiguration(locations = {"classpath:spring-jdbc.xml"})
 public class DemoPersonServiceTest {
     @Autowired
     private DemoPersonService demoPersonService;

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author liuxingyu01
  * @date 2021-09-15-11:42
+ * @description 动态数据源切面
  **/
 @Component
 @Aspect
@@ -18,7 +19,6 @@ public class DynamicDataSourceAspectAdvice {
 
     @Around(value = "anyMethod() && @annotation(dataSource)")
     public Object setDataSource(ProceedingJoinPoint jp, DataSource dataSource) throws Throwable {
-
         String ds = dataSource.value();
         if (ds != null && !ds.equals("")) {
             DynamicDataSource.setDataSource(ds);
@@ -29,13 +29,12 @@ public class DynamicDataSourceAspectAdvice {
         } catch (Throwable t) {
             throw t;
         } finally {
-            // 清除数据源
+            // 用完清除数据源
             DynamicDataSource.clearDataSource();
         }
 
         return o;
     }
-
 
     @Pointcut("execution(* *(..))")
     public void anyMethod() {
@@ -46,5 +45,4 @@ public class DynamicDataSourceAspectAdvice {
     public void anyPublicMethod() {
 
     }
-
 }
