@@ -97,6 +97,37 @@
         </property>
     </bean>
 
+
+    <!--配置DatabaseIdProvider，用于在xml判断数据源类型-->
+    <!--  _databaseId可用于判断数据源类型，如：<if test="_databaseId=='oracle'">DUAL</if>，_databaseId有如下值：mysql、mysql、db2、h2、postgresql、UnKown-->
+    <!--  注意：_databaseId的值只会是默认数据源，不会随着切换的数据源改变而改变。-->
+    <!--  _databaseId还有一种用法,如下所示-->
+    <!--  <mapper namespace="com.ali.pims.dao.UserDao">-->
+    <!--    <select id="count"  resultType="long" databaseId="MySQL">-->
+    <!--         SELECT COUNT(1) FROM t_user-->
+    <!--    </select>-->
+    <!--    <select id="count"  resultType="long" databaseId="Oracle">-->
+    <!--         SELECT COUNT(1) FROM t_user-->
+    <!--    </select>-->
+    <!--  </mapper>-->
+    <!--  如果当前数据源是oracle则执行databaseId="Oracle"的语句，如果是mysql则执行databaseId="MySQL"的语句-->
+    <bean id="vendorProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="properties">
+            <props>
+                <prop key="Oracle">oracle</prop>
+                <prop key="MySQL">mysql</prop>
+                <prop key="PostgreSQL">postgresql</prop>
+                <prop key="DB2">db2</prop>
+                <prop key="SQL Server">sqlserver</prop>
+                <prop key="H2">h2</prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="databaseIdProvider" class="org.apache.ibatis.mapping.VendorDatabaseIdProvider">
+        <property name="properties" ref="vendorProperties" />
+    </bean>
+
+
     <!--指定Mybatis的mapper接口扫描包-->
     <!--注意！！！如果用的是tk.mybatis自动生成的mapper接口，一定要将org.mybatis.改成tk.mybatis-->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
