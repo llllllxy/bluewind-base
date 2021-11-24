@@ -117,6 +117,11 @@
         <property name="transactionManager" ref="transactionManager"/>
     </bean>
 
+    <!--配置jdbcTemplate并注入数据源-->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
     <!--启动注解事务-->
     <tx:annotation-driven/>
 </beans>
