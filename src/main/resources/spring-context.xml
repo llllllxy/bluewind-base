@@ -36,7 +36,7 @@
 
     <!--配置自动扫描，扫描com.bluewind.base包下的所有类及其子包下的所有类（上面注释掉的仨是分类型分别扫描的，这里放到一起扫描，简单方便）-->
     <context:component-scan base-package="com.bluewind.base" use-default-filters="true">
-        <!--这里要排除掉Controller的注解，Controller专门交给MVC去扫描，这样会就不会冲突-->
+        <!--这里要排除掉Controller的注解，Controller专门交给spring-mvc.xml去扫描，避免重复扫描-->
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
     </context:component-scan>
 
