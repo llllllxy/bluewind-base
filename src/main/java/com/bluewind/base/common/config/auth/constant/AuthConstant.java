@@ -30,4 +30,11 @@ public class AuthConstant {
 
     // 尝试登陆次数
     public final static String LAMBO_SSO_LOGIN_NUMBER = "lambo-sso-user-login-num";
+
+
+    public final static String BLUEWIND_USERINFO_CACHE = "bluewind:userinfo:cache";
+
+    public final static String BLUEWIND_PERMISSIONS_CACHE = "bluewind:permissions:cache";
+
+    public final static String BLUEWIND_ROLES_CACHE = "bluewind:roles:cache";
 }

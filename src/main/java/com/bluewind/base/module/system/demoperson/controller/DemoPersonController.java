@@ -2,6 +2,7 @@ package com.bluewind.base.module.system.demoperson.controller;
 
 import com.bluewind.base.common.annotation.DataSource;
 import com.bluewind.base.common.annotation.LogAround;
+import com.bluewind.base.common.config.auth.util.UserInfoUtil;
 import com.bluewind.base.common.util.redis.RedisUtils;
 import com.bluewind.base.module.system.demoperson.service.DemoPersonService;
 import io.swagger.annotations.Api;
@@ -49,6 +50,10 @@ public class DemoPersonController {
     @ResponseBody
     public Object testPermissions() {
         logger.info("测试testPermissions成功");
+
+        logger.info("UserInfoUtil.getUserName() = {}", UserInfoUtil.getUserName());
+        logger.info("UserInfoUtil.getUserInfo() = {}", UserInfoUtil.getUserInfo());
+
         return "测试testPermissions成功";
     }
 

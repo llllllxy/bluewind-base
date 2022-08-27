@@ -12,4 +12,6 @@ public interface AuthService {
     int authentication(String username, String password);
 
     void recordFailUserLogin(String username);
+
+    UserInfo getUserInfo(String username);
 }

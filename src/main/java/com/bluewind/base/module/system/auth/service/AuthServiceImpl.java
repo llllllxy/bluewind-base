@@ -88,4 +88,15 @@ public class AuthServiceImpl implements AuthService {
         num = num + 1;
         redisUtils.set(redisKey, String.valueOf(num), AuthUtil.getLoginMaxNumExpiredTime());
     }
+
+
+    /**
+     * 根据username获取用户信息
+     *
+     * @param username 用户名
+     */
+    @Override
+    public UserInfo getUserInfo(String username) {
+        return authMapper.getUserInfo(username);
+    }
 }

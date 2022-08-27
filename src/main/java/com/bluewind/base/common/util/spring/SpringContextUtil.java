@@ -16,7 +16,8 @@ import org.springframework.stereotype.Component;
 public class SpringContextUtil implements ApplicationContextAware {
     private static ApplicationContext applicationContext = null;
 
-    public SpringContextUtil() {
+    private SpringContextUtil() {
+        super();
     }
 
     @Override
