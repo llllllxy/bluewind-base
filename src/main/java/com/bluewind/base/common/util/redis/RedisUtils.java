@@ -162,6 +162,21 @@ public class RedisUtils {
 
 
     /**
+     * 普通缓存获取
+     *
+     * @param key 键
+     * @return 值，返回String
+     */
+    public String getStr(String key) {
+        if (key == null) {
+            return null;
+        }
+        Object obj = redisTemplate.opsForValue().get(key);
+        return obj == null ? null : obj.toString();
+    }
+
+
+    /**
      * 批量获取缓存
      * @param keys Collection<key>
      * @return List<Object>

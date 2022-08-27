@@ -6,6 +6,7 @@ import com.bluewind.base.common.util.redis.RedisUtils;
 import com.bluewind.base.module.system.demoperson.service.DemoPersonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,26 @@ public class DemoPersonController {
 
     @Autowired
     private RedisUtils redisUtils;
+
+
+    @LogAround("testAuth")
+    @RequestMapping(value = "/testAuth",method = RequestMethod.GET)
+    @ResponseBody
+    public Object testAuth() {
+        logger.info("测试会话控制成功");
+        return "测试会话控制成功";
+    }
+
+
+    @LogAround("testAuth")
+    @RequiresPermissions("permissions2")
+    @RequestMapping(value = "/testPermissions",method = RequestMethod.GET)
+    @ResponseBody
+    public Object testPermissions() {
+        logger.info("测试testPermissions成功");
+        return "测试testPermissions成功";
+    }
+
 
     /**
      * 测试rest接口返回，测试成功

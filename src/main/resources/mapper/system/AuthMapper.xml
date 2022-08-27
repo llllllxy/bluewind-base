@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bluewind.base.module.system.auth.mapper.AuthMapper">
+
+    <resultMap id="UserInfo" type="com.bluewind.base.module.system.auth.entity.UserInfo">
+        <id column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="dept_id" jdbcType="BIGINT" property="deptId"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="sex" jdbcType="TINYINT" property="sex"/>
+        <result column="status" jdbcType="TINYINT" property="status"/>
+        <result column="avatar_status" jdbcType="TINYINT" property="avatarStatus"/>
+        <result column="created_by" jdbcType="BIGINT" property="createdBy"/>
+        <result column="updated_by" jdbcType="BIGINT" property="updatedBy"/>
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt"/>
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt"/>
+    </resultMap>
+
+    <select id="getUserInfo" resultMap="UserInfo" parameterType="java.lang.String">
+        select * from sys_user where username = #{_parameter}
+    </select>
+
+</mapper>
