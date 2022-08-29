@@ -64,5 +64,12 @@
             -->
             <property name="closeConn" value="true"/>
         </plugin>
+
+        <!-- mybatis日志记录插件，必须在分页插件后面 -->
+        <plugin interceptor="com.bluewind.base.common.config.mybatis.MybatisSqlLogInterceptor">
+            <property name="isOpen" value="true"/>
+            <property name="maxTime" value="5000"/>
+            <property name="recordResult" value="false"/>
+        </plugin>
     </plugins>
 </configuration>
