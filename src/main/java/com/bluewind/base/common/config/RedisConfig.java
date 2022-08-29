@@ -67,6 +67,8 @@ public class RedisConfig {
 
     /**
      * 单机模式（测试好用）
+     * 适用：普通测试，少量数据缓存
+     *
      * @return LettuceConnectionFactory
      */
     public LettuceConnectionFactory lettuceConnectionFactory() {
@@ -104,6 +106,9 @@ public class RedisConfig {
 
     /**
      * Cluster集群模式（测试好用）
+     * 适用：针对海量数据+高并发+高可用的场景，解决单机Redis容量有限的问题，将Redis的数据根据一定的规则分配到多台机器
+     *      一般集群建议搭建三主三从架构，三主提供服务，三从提供备份功能
+     *
      * @return LettuceConnectionFactory
      */
     public LettuceConnectionFactory lettuceClusterConnectionFactory() {
@@ -148,7 +153,10 @@ public class RedisConfig {
 
 
     /**
-     * Cluster集群模式（测试好用）
+     * Sentinel哨兵模式（暂未测试）
+     * 适用：Redis的高可用性解决方案，主从架构，选举模式
+     *     当sentinel发现master节点挂了以后，sentinel就会从slave中重新选举一个master
+     *
      * @return LettuceConnectionFactory
      */
     public LettuceConnectionFactory lettuceSentinelConnectionFactory() {
