@@ -1,20 +1,20 @@
 package com.bluewind.base.common.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisClusterConfiguration;
+import org.springframework.data.redis.connection.RedisNode;
+import org.springframework.data.redis.connection.RedisSentinelConfiguration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
@@ -35,12 +35,16 @@ import java.time.Duration;
 public class RedisConfig {
     private static final Logger logger = LoggerFactory.getLogger(RedisConfig.class);
 
+    private static final String REDIS_URL_SEPARATOR = ";";
+
+    private static final String HOST_PORT_SEPARATOR = ":";
+
+    @Value("${redis.type}") // 连接类型，standalone单机，cluster集群
+    private String redisType;
+    @Value("${redis.url}")
+    private String redisUrl;
     @Value("${redis.redisDbIndex}")
     private int redisDbIndex;
-    @Value("${redis.host}")
-    private String redisHost;
-    @Value("${redis.port}")
-    private int redisPort;
     @Value("${redis.password}")
     private String redisPassword;
     @Value("${redis.timeout}")
@@ -61,28 +65,32 @@ public class RedisConfig {
     private long shutdownTimeout;
 
 
-    @Bean
+    /**
+     * 单机模式（测试好用）
+     * @return LettuceConnectionFactory
+     */
     public LettuceConnectionFactory lettuceConnectionFactory() {
+        if (logger.isInfoEnabled()) {
+            logger.info("lettuceConnectionFactory -- the redisUrl is {}", redisUrl);
+        }
+        if (StringUtils.isBlank(redisUrl)) {
+            throw new IllegalStateException("the urls of redis is not configured");
+        }
 
-        RedisStandaloneConfiguration redisConfiguration = new RedisStandaloneConfiguration(redisHost, redisPort);
-        redisConfiguration.setDatabase(redisDbIndex);
+        String[] urls = redisUrl.split(HOST_PORT_SEPARATOR);
+        String hostName = urls[0];
+        int port = Integer.parseInt(urls[1]);
+
+        RedisStandaloneConfiguration redisConfiguration = new RedisStandaloneConfiguration(hostName, port);
         redisConfiguration.setPassword(redisPassword);
-
-        // 连接池配置
-        GenericObjectPoolConfig genericObjectPoolConfig = new GenericObjectPoolConfig();
-        genericObjectPoolConfig.setMaxIdle(maxIdle);
-        genericObjectPoolConfig.setMinIdle(minIdle);
-        genericObjectPoolConfig.setMaxTotal(maxActive);
-        genericObjectPoolConfig.setMaxWaitMillis(maxWait);
-        genericObjectPoolConfig.setTestOnBorrow(testOnBorrow);
-        genericObjectPoolConfig.setTestWhileIdle(testWhileIdle);
-
+        redisConfiguration.setDatabase(redisDbIndex);
 
         // redis客户端配置
         LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder builder = LettucePoolingClientConfiguration.builder();
         builder.commandTimeout(Duration.ofMillis(timeout));
         builder.shutdownTimeout(Duration.ofMillis(shutdownTimeout));
-        builder.poolConfig(genericObjectPoolConfig);
+        // 配置连接池
+        builder.poolConfig(poolConfig());
 
         LettuceClientConfiguration lettuceClientConfiguration = builder.build();
 
@@ -92,6 +100,116 @@ public class RedisConfig {
 
         return lettuceConnectionFactory;
     }
+
+
+    /**
+     * Cluster集群模式（测试好用）
+     * @return LettuceConnectionFactory
+     */
+    public LettuceConnectionFactory lettuceClusterConnectionFactory() {
+        if (logger.isInfoEnabled()) {
+            logger.info("lettuceClusterConnectionFactory -- the redisUrl is {}", redisUrl);
+        }
+        if (StringUtils.isBlank(redisUrl)) {
+            throw new IllegalStateException("the urls of redis is not configured");
+        }
+
+        RedisClusterConfiguration redisConfiguration = new RedisClusterConfiguration();
+        redisConfiguration.setPassword(redisPassword);
+
+        if (redisUrl.split(REDIS_URL_SEPARATOR).length > 1) {
+            for (String redisUrl : redisUrl.split(REDIS_URL_SEPARATOR)) {
+                String[] urls = redisUrl.split(HOST_PORT_SEPARATOR);
+                String host = urls[0];
+                int port = Integer.parseInt(urls[1]);
+
+                RedisNode redisNode = new RedisNode(host, port);
+                redisConfiguration.addClusterNode(redisNode);
+            }
+        }
+
+        // redis客户端配置
+        LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder builder = LettucePoolingClientConfiguration.builder();
+        builder.commandTimeout(Duration.ofMillis(timeout));
+        builder.shutdownTimeout(Duration.ofMillis(shutdownTimeout));
+        // 配置连接池
+        builder.poolConfig(poolConfig());
+
+        LettuceClientConfiguration lettuceClientConfiguration = builder.build();
+
+        // 根据配置和客户端配置创建连接
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisConfiguration, lettuceClientConfiguration);
+        lettuceConnectionFactory.setDatabase(redisDbIndex);
+
+        lettuceConnectionFactory.afterPropertiesSet();
+
+        return lettuceConnectionFactory;
+    }
+
+
+    /**
+     * Cluster集群模式（测试好用）
+     * @return LettuceConnectionFactory
+     */
+    public LettuceConnectionFactory lettuceSentinelConnectionFactory() {
+        if (logger.isInfoEnabled()) {
+            logger.info("lettuceSentinelConnectionFactory -- the redisUrl is {}", redisUrl);
+        }
+        if (StringUtils.isBlank(redisUrl)) {
+            throw new IllegalStateException("the urls of redis is not configured");
+        }
+
+        RedisSentinelConfiguration redisConfiguration = new RedisSentinelConfiguration();
+        // 此处暂时写死，也可从配置文件中取
+        redisConfiguration.setMaster("master");
+        redisConfiguration.setPassword(redisPassword);
+        redisConfiguration.setDatabase(redisDbIndex);
+
+        if (redisUrl.split(REDIS_URL_SEPARATOR).length > 1) {
+            for (String redisUrl : redisUrl.split(REDIS_URL_SEPARATOR)) {
+                String[] urls = redisUrl.split(HOST_PORT_SEPARATOR);
+                String host = urls[0];
+                int port = Integer.parseInt(urls[1]);
+
+                RedisNode redisNode = new RedisNode(host, port);
+                redisConfiguration.addSentinel(redisNode);
+            }
+        }
+
+        // redis客户端配置
+        LettucePoolingClientConfiguration.LettucePoolingClientConfigurationBuilder builder = LettucePoolingClientConfiguration.builder();
+        builder.commandTimeout(Duration.ofMillis(timeout));
+        builder.shutdownTimeout(Duration.ofMillis(shutdownTimeout));
+        // 配置连接池
+        builder.poolConfig(poolConfig());
+
+        LettuceClientConfiguration lettuceClientConfiguration = builder.build();
+
+        // 根据配置和客户端配置创建连接
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisConfiguration, lettuceClientConfiguration);
+
+        lettuceConnectionFactory.afterPropertiesSet();
+
+        return lettuceConnectionFactory;
+    }
+
+
+    /**
+     * 配置连接池参数
+     * @return
+     */
+    private GenericObjectPoolConfig poolConfig() {
+        // 连接池配置
+        GenericObjectPoolConfig genericObjectPoolConfig = new GenericObjectPoolConfig();
+        genericObjectPoolConfig.setMaxIdle(maxIdle);
+        genericObjectPoolConfig.setMinIdle(minIdle);
+        genericObjectPoolConfig.setMaxTotal(maxActive);
+        genericObjectPoolConfig.setMaxWaitMillis(maxWait);
+        genericObjectPoolConfig.setTestOnBorrow(testOnBorrow);
+        genericObjectPoolConfig.setTestWhileIdle(testWhileIdle);
+        return genericObjectPoolConfig;
+    }
+
 
 
     /**
@@ -116,7 +234,15 @@ public class RedisConfig {
 
         // 配置redisTemplate
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
-        redisTemplate.setConnectionFactory(lettuceConnectionFactory());
+
+        // 根据配置，加载补不同的ConnectionFactory
+        if (StringUtils.isNotBlank(redisType) && "cluster".equals(redisType)) {
+            redisTemplate.setConnectionFactory(lettuceClusterConnectionFactory());
+        } else if (StringUtils.isNotBlank(redisType) && "sentinel".equals(redisType)) {
+            redisTemplate.setConnectionFactory(lettuceSentinelConnectionFactory());
+        } else {
+            redisTemplate.setConnectionFactory(lettuceConnectionFactory());
+        }
 
         redisTemplate.setKeySerializer(stringSerializer);// key序列化
         redisTemplate.setValueSerializer(valueSerializer);// value序列化
@@ -126,6 +252,5 @@ public class RedisConfig {
 
         return redisTemplate;
     }
-
 
 }
