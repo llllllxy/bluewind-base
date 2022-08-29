@@ -15,7 +15,7 @@ import java.util.Objects;
 /**
  * @author liuxingyu01
  * @date 2022-08-27 13:42
- * @description
+ * @description 用户会话工具类
  **/
 public class UserInfoUtil {
     private static final Logger logger = LoggerFactory.getLogger(UserInfoUtil.class);
