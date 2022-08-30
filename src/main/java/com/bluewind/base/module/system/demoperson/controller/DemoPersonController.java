@@ -44,8 +44,8 @@ public class DemoPersonController {
     }
 
 
-    @LogAround("testAuth")
-    @RequiresPermissions("permissions2")
+    @LogAround("testPermissions")
+    @RequiresPermissions("system:user:init")
     @RequestMapping(value = "/testPermissions",method = RequestMethod.GET)
     @ResponseBody
     public Object testPermissions() {

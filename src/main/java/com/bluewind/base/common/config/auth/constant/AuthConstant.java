@@ -7,6 +7,12 @@ package com.bluewind.base.common.config.auth.constant;
  **/
 public class AuthConstant {
 
+    /**
+     * 登录用户cookie-key
+     */
+    public static final String BLUEWIND_TOKEN_KEY = "token";
+
+
     // 用户会话redis的key
     public final static String LAMBO_SSO_CODE_USERNAME = "lambo-sso-code-username";
 
@@ -37,4 +43,6 @@ public class AuthConstant {
     public final static String BLUEWIND_PERMISSIONS_CACHE = "bluewind:permissions:cache";
 
     public final static String BLUEWIND_ROLES_CACHE = "bluewind:roles:cache";
+
+
 }

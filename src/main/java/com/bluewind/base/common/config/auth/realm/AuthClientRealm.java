@@ -1,6 +1,7 @@
 package com.bluewind.base.common.config.auth.realm;
 
 import com.bluewind.base.common.config.auth.constant.AuthResultConstant;
+import com.bluewind.base.common.config.auth.util.UserInfoUtil;
 import com.bluewind.base.module.system.auth.service.AuthService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authc.*;
@@ -12,7 +13,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.*;
 
 /**
  * @author liuxingyu01
@@ -89,23 +89,11 @@ public class AuthClientRealm extends AuthorizingRealm {
             // 权限信息对象info,用来存放查出的用户的所有的角色（role）及权限（permission）
             SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
 
+            Long userId = UserInfoUtil.getUserId();
             // 获得用户角色列表
-            // simpleAuthorizationInfo.setRoles(authService.listUserRoleByUserId(authorizingUser.getUserId()));
+            simpleAuthorizationInfo.setRoles(authService.listUserRoleByUserId(userId));
             // 获得权限列表
-            // simpleAuthorizationInfo.setStringPermissions(authService.listPermissionByUserId(authorizingUser.getUserId()));
-
-            HashSet<String> permissions = new HashSet<String>(){{
-                add("permissions1");
-                add("permissions2");
-            }};
-
-            HashSet<String> roles = new HashSet<String>(){{
-                add("roles1");
-                add("roles2");
-            }};
-
-            simpleAuthorizationInfo.setStringPermissions(permissions);
-            simpleAuthorizationInfo.setRoles(roles);
+            simpleAuthorizationInfo.setStringPermissions(authService.listRolePermissionByUserId(userId));
 
             return simpleAuthorizationInfo;
         }

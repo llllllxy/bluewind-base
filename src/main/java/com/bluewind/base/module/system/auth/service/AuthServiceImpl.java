@@ -3,12 +3,15 @@ package com.bluewind.base.module.system.auth.service;
 import com.bluewind.base.common.config.auth.constant.AuthConstant;
 import com.bluewind.base.common.config.auth.constant.AuthResultConstant;
 import com.bluewind.base.common.config.auth.util.AuthUtil;
+import com.bluewind.base.common.config.auth.util.UserInfoUtil;
 import com.bluewind.base.common.util.redis.RedisUtils;
 import com.bluewind.base.module.system.auth.entity.UserInfo;
 import com.bluewind.base.module.system.auth.mapper.AuthMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 /**
  * @author liuxingyu01
@@ -98,5 +101,34 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public UserInfo getUserInfo(String username) {
         return authMapper.getUserInfo(username);
+    }
+
+    @Override
+    public Set<String> listRolePermissionByUserId(Long userId) {
+        String token = UserInfoUtil.getToken();
+        // 先从缓存中拿，缓存中没有再查库
+        Object object = redisUtils.get(AuthConstant.BLUEWIND_PERMISSIONS_CACHE + ":" + token);
+        if (null != object) {
+            return (Set<String>) object;
+        }
+        Set<String> set = authMapper.listRolePermissionByUserId(userId);
+        redisUtils.set(AuthConstant.BLUEWIND_PERMISSIONS_CACHE + ":" + token, set, 1800);
+
+        return set;
+    }
+
+
+    @Override
+    public Set<String> listUserRoleByUserId(Long userId){
+        String token = UserInfoUtil.getToken();
+
+        Object object = redisUtils.get(AuthConstant.BLUEWIND_ROLES_CACHE + ":" + token);
+        if (null != object) {
+            return (Set<String>) object;
+        }
+        Set<String> set = authMapper.listUserRoleByUserId(userId);
+        redisUtils.set(AuthConstant.BLUEWIND_ROLES_CACHE + ":" + token, set, 1800);
+
+        return set;
     }
 }

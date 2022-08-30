@@ -25,4 +25,28 @@
         select * from sys_user where username = #{_parameter}
     </select>
 
+    <select id="listRolePermissionByUserId" parameterType="java.lang.Long" resultType="java.lang.String">
+        select a.permission_value
+        from sys_permission a
+        where a.status = 0
+        and length( a.permission_value ) > 0
+        and exists (
+            select rp.permission_id
+            from sys_role_permission rp
+            left join sys_role ri on rp.role_id = ri.role_id
+            where ri.status = 0
+            and exists ( select ur.role_id from sys_user_role ur where ur.user_id = 1 and rp.role_id = ur.role_id )
+            and a.permission_id = rp.permission_id
+        )
+    </select>
+
+
+    <select id="listUserRoleByUserId" parameterType="java.lang.Long" resultType="java.lang.String">
+        select a.role_sign
+        from sys_user_role b
+        join sys_role a on a.role_id = b.role_id
+        where b.user_id = #{userId}
+        and a.status = 0
+    </select>
+
 </mapper>

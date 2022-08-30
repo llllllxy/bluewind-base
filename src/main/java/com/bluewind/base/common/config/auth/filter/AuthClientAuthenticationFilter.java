@@ -60,7 +60,7 @@ public class AuthClientAuthenticationFilter extends AuthenticationFilter {
      */
     private boolean validateClient(ServletRequest request, ServletResponse response) {
         HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
-        String token = httpServletRequest.getHeader("token");
+        String token = httpServletRequest.getHeader(AuthConstant.BLUEWIND_TOKEN_KEY);
         if (StringUtils.isNotBlank(token)) {
             return this.isLogin(request, response, token);
         } else {

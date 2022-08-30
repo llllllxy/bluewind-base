@@ -5,6 +5,7 @@ import com.bluewind.base.common.base.Result;
 import com.bluewind.base.common.config.auth.constant.AuthConstant;
 import com.bluewind.base.common.config.auth.util.AuthUtil;
 import com.bluewind.base.common.config.auth.util.PasswordUtils;
+import com.bluewind.base.common.config.auth.util.UserInfoUtil;
 import com.bluewind.base.common.util.redis.RedisUtils;
 import com.bluewind.base.common.util.web.CookieUtils;
 import com.bluewind.base.module.system.auth.service.AuthService;
@@ -115,10 +116,8 @@ public class AuthController extends BaseController {
     @ResponseBody
     public Object logout(HttpServletRequest request) {
         // 退出登录即为删除redis中存着的会话信息即可
-        String token = request.getHeader("token");
-        if (StringUtils.isBlank(token)) {
-            token = CookieUtils.getCookie(request, AuthConstant.LAMBO_SSO_COOKIE_KEY);
-        }
+        String token = UserInfoUtil.getToken(request);
+
         String username = redisUtils.getStr(AuthConstant.LAMBO_SSO_CODE_USERNAME + ":" + token);
 
         String num = redisUtils.getStr(AuthConstant.LAMBO_SSO_USER_LOGIN_SESSION_NUM + ":" + username);
