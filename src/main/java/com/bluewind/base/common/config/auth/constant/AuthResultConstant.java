@@ -3,7 +3,7 @@ package com.bluewind.base.common.config.auth.constant;
 /**
  * @author liuxingyu01
  * @date 2022-08-27 9:43
- * @description
+ * @description 登录结果常量
  **/
 public class AuthResultConstant {
 

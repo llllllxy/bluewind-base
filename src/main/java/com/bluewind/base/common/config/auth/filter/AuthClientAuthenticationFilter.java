@@ -64,7 +64,7 @@ public class AuthClientAuthenticationFilter extends AuthenticationFilter {
         if (StringUtils.isNotBlank(token)) {
             return this.isLogin(request, response, token);
         } else {
-            String code = CookieUtils.getCookie(httpServletRequest, AuthConstant.LAMBO_SSO_COOKIE_KEY);
+            String code = CookieUtils.getCookie(httpServletRequest, AuthConstant.BLUEWIND_COOKIE_KEY);
             if (StringUtils.isNotBlank(code)) {
                 return this.isLogin(request, response, code);
             }
@@ -82,12 +82,12 @@ public class AuthClientAuthenticationFilter extends AuthenticationFilter {
      */
     private boolean isLogin(ServletRequest request, ServletResponse response, String token) {
         if (StringUtils.isNotBlank(token)) {
-            if (StringUtils.isNotBlank(getRedisUtils().getStr(AuthConstant.LAMBO_SSO_CODE_USERNAME + ":" + token))) {
+            if (StringUtils.isNotBlank(getRedisUtils().getStr(AuthConstant.BLUEWIND_TOKEN_CACHE + ":" + token))) {
                 // client无密认证
                 Subject subject = this.getSubject(request, response);
-                subject.login(new UsernamePasswordToken(getRedisUtils().getStr(AuthConstant.LAMBO_SSO_CODE_USERNAME + ":" + token), ""));
+                subject.login(new UsernamePasswordToken(getRedisUtils().getStr(AuthConstant.BLUEWIND_TOKEN_CACHE + ":" + token), ""));
                 // 刷新redis缓存，以刷新会话
-                getRedisUtils().expire(AuthConstant.LAMBO_SSO_CODE_USERNAME + ":" + token, AuthUtil.getSessionsTime());
+                getRedisUtils().expire(AuthConstant.BLUEWIND_TOKEN_CACHE + ":" + token, AuthUtil.getSessionsTime());
                 return true;
             }
         }

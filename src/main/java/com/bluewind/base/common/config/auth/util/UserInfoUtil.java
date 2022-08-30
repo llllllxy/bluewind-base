@@ -66,7 +66,7 @@ public class UserInfoUtil {
         }
         String token = httpServletRequest.getHeader(AuthConstant.BLUEWIND_TOKEN_KEY);
         if (StringUtils.isBlank(token)) {
-            token = CookieUtils.getCookie(httpServletRequest, AuthConstant.LAMBO_SSO_COOKIE_KEY);
+            token = CookieUtils.getCookie(httpServletRequest, AuthConstant.BLUEWIND_COOKIE_KEY);
         }
         return token;
     }
@@ -83,7 +83,7 @@ public class UserInfoUtil {
         }
         String token = httpServletRequest.getHeader(AuthConstant.BLUEWIND_TOKEN_KEY);
         if (StringUtils.isBlank(token)) {
-            token = CookieUtils.getCookie(httpServletRequest, AuthConstant.LAMBO_SSO_COOKIE_KEY);
+            token = CookieUtils.getCookie(httpServletRequest, AuthConstant.BLUEWIND_COOKIE_KEY);
         }
         return token;
     }

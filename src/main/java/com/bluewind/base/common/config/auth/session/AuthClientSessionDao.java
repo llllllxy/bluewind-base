@@ -44,7 +44,7 @@ public class AuthClientSessionDao extends CachingSessionDAO {
     protected Serializable doCreate(Session session) {
         Serializable sessionId = generateSessionId(session);
         assignSessionId(session, sessionId);
-        getRedisUtils().set(AuthConstant.LAMBO_SSO_SHIRO_SESSION_ID + ":" + sessionId, SerializableUtil.serialize(session), (int) session.getTimeout() / 1000);
+        getRedisUtils().set(AuthConstant.BLUEWIND_SSO_SHIRO_SESSION_ID + ":" + sessionId, SerializableUtil.serialize(session), (int) session.getTimeout() / 1000);
         if (logger.isInfoEnabled()) {
             logger.info("doCreate >>>>> sessionId={}", sessionId);
         }
@@ -57,7 +57,7 @@ public class AuthClientSessionDao extends CachingSessionDAO {
 
         Session session = sessionCacheMap.get(sessionId.toString());
         if (session == null) {
-            String sessionStr = getRedisUtils().getStr(AuthConstant.LAMBO_SSO_SHIRO_SESSION_ID + ":" + sessionId);
+            String sessionStr = getRedisUtils().getStr(AuthConstant.BLUEWIND_SSO_SHIRO_SESSION_ID + ":" + sessionId);
             if (logger.isInfoEnabled()) {
                 logger.info("doReadSession >>>>> sessionId={}", sessionId);
             }
@@ -81,10 +81,10 @@ public class AuthClientSessionDao extends CachingSessionDAO {
         if (sessionCacheMap.get(sessionId) != null) {
             sessionCacheMap.remove(sessionId);
         }
-        String code = getRedisUtils().getStr(AuthConstant.LAMBO_SSO_CODE + ":" + sessionId);
+        String code = getRedisUtils().getStr(AuthConstant.BLUEWIND_SSO_CODE + ":" + sessionId);
         int timeout = (int) session.getTimeout() / 1000;
         //只要这个属性还活着，其他的丢了就丢了，再创建就是了
-        getRedisUtils().expire(AuthConstant.LAMBO_SSO_CODE_USERNAME + ":" + code, timeout);
+        getRedisUtils().expire(AuthConstant.BLUEWIND_TOKEN_CACHE + ":" + code, timeout);
     }
 
     @Override
@@ -95,19 +95,19 @@ public class AuthClientSessionDao extends CachingSessionDAO {
             sessionCacheMap.remove(sessionId);
         }
         // 当前会话code
-        String code = getRedisUtils().getStr(AuthConstant.LAMBO_SSO_CODE + ":" + sessionId);
+        String code = getRedisUtils().getStr(AuthConstant.BLUEWIND_SSO_CODE + ":" + sessionId);
         // 清除code校验值
-        getRedisUtils().del(AuthConstant.LAMBO_SSO_CODE_USERNAME + ":" + code);
+        getRedisUtils().del(AuthConstant.BLUEWIND_TOKEN_CACHE + ":" + code);
 
         // 清除所有局部会话(这一块的代码暂时没看懂，不知道干啥的)
-        Set<Object> sessionIds = getRedisUtils().sGet(AuthConstant.LAMBO_SSO_SESSION_IDS + ":" + code);
+        Set<Object> sessionIds = getRedisUtils().sGet(AuthConstant.BLUEWIND_SSO_SESSION_IDS + ":" + code);
         if (CollectionUtils.isNotEmpty(sessionIds)) {
             for (Object sId : sessionIds) {
-                getRedisUtils().del(AuthConstant.LAMBO_SSO_CODE + ":" + (String) sId);
+                getRedisUtils().del(AuthConstant.BLUEWIND_SSO_CODE + ":" + (String) sId);
             }
         }
 
-        getRedisUtils().del(AuthConstant.LAMBO_SSO_SESSION_IDS + ":" + code);
+        getRedisUtils().del(AuthConstant.BLUEWIND_SSO_SESSION_IDS + ":" + code);
         if (logger.isInfoEnabled()) {
             logger.info("doUpdate >>>>> sessionId={}", sessionId);
         }
@@ -124,11 +124,11 @@ public class AuthClientSessionDao extends CachingSessionDAO {
         String[] sessionIds = ids.split(",");
         for (String sessionId : sessionIds) {
             // 会话增加强制退出属性标识，当此会话访问系统时，判断有该标识，则退出登录
-            String session = getRedisUtils().getStr(AuthConstant.LAMBO_SSO_SHIRO_SESSION_ID + ":" + sessionId);
+            String session = getRedisUtils().getStr(AuthConstant.BLUEWIND_SSO_SHIRO_SESSION_ID + ":" + sessionId);
             AuthClientSession authClientSession = (AuthClientSession) SerializableUtil.deserialize(session);
             authClientSession.setStatus(AuthClientSession.OnlineStatus.force_logout);
             authClientSession.setAttribute("FORCE_LOGOUT", "FORCE_LOGOUT");
-            getRedisUtils().set(AuthConstant.LAMBO_SSO_SHIRO_SESSION_ID + ":" + sessionId, SerializableUtil.serialize(authClientSession), (int) authClientSession.getTimeout() / 1000);
+            getRedisUtils().set(AuthConstant.BLUEWIND_SSO_SHIRO_SESSION_ID + ":" + sessionId, SerializableUtil.serialize(authClientSession), (int) authClientSession.getTimeout() / 1000);
         }
         return sessionIds.length;
     }
@@ -145,6 +145,6 @@ public class AuthClientSessionDao extends CachingSessionDAO {
             return;
         }
         session.setStatus(onlineStatus);
-        getRedisUtils().set(AuthConstant.LAMBO_SSO_SHIRO_SESSION_ID + ":" + session.getId(), SerializableUtil.serialize(session), (int) session.getTimeout() / 1000);
+        getRedisUtils().set(AuthConstant.BLUEWIND_SSO_SHIRO_SESSION_ID + ":" + session.getId(), SerializableUtil.serialize(session), (int) session.getTimeout() / 1000);
     }
 }

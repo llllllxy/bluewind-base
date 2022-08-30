@@ -92,20 +92,20 @@ public class AuthController extends BaseController {
         // 默认验证帐号密码正确，创建token
         String token = UUID.randomUUID().toString().replace("-", "");
         // 记录会话token
-        redisUtils.set(AuthConstant.LAMBO_SSO_CODE_USERNAME + ":" + token, username, AuthUtil.getSessionsTime());
+        redisUtils.set(AuthConstant.BLUEWIND_TOKEN_CACHE + ":" + token, username, AuthUtil.getSessionsTime());
         // 往Cookie里设置单点登录token
-        CookieUtils.setCookie(response, AuthConstant.LAMBO_SSO_COOKIE_KEY, token, "/", -1);
+        CookieUtils.setCookie(response, AuthConstant.BLUEWIND_COOKIE_KEY, token, "/", -1);
 
         // 记录当前用户的会话数量（会话数量+1）
-        String num = redisUtils.getStr(AuthConstant.LAMBO_SSO_USER_LOGIN_SESSION_NUM + ":" + username);
+        String num = redisUtils.getStr(AuthConstant.BLUEWIND_USER_SESSION_NUMS + ":" + username);
         if (StringUtils.isBlank(num)) {
-            redisUtils.set(AuthConstant.LAMBO_SSO_USER_LOGIN_SESSION_NUM + ":" + username, String.valueOf(1), AuthUtil.getSessionsTime());
+            redisUtils.set(AuthConstant.BLUEWIND_USER_SESSION_NUMS + ":" + username, String.valueOf(1), AuthUtil.getSessionsTime());
         } else {
-            redisUtils.set(AuthConstant.LAMBO_SSO_USER_LOGIN_SESSION_NUM + ":" + username, String.valueOf(Integer.parseInt(num) + 1), AuthUtil.getSessionsTime());
+            redisUtils.set(AuthConstant.BLUEWIND_USER_SESSION_NUMS + ":" + username, String.valueOf(Integer.parseInt(num) + 1), AuthUtil.getSessionsTime());
         }
 
         // 认证成功后，则清空尝试登录次数
-        redisUtils.del(AuthConstant.LAMBO_SSO_LOGIN_NUMBER + ":" + username);
+        redisUtils.del(AuthConstant.BLUEWIND_LOGIN_ATTEMPT_TIMES + ":" + username);
 
         return Result.ok("登录成功，欢迎回来！", token);
     }
@@ -118,14 +118,14 @@ public class AuthController extends BaseController {
         // 退出登录即为删除redis中存着的会话信息即可
         String token = UserInfoUtil.getToken(request);
 
-        String username = redisUtils.getStr(AuthConstant.LAMBO_SSO_CODE_USERNAME + ":" + token);
+        String username = redisUtils.getStr(AuthConstant.BLUEWIND_TOKEN_CACHE + ":" + token);
 
-        String num = redisUtils.getStr(AuthConstant.LAMBO_SSO_USER_LOGIN_SESSION_NUM + ":" + username);
+        String num = redisUtils.getStr(AuthConstant.BLUEWIND_USER_SESSION_NUMS + ":" + username);
         if (StringUtils.isNotBlank(num)) {
-            redisUtils.set(AuthConstant.LAMBO_SSO_USER_LOGIN_SESSION_NUM + ":" + username, String.valueOf(Integer.parseInt(num) - 1), AuthUtil.getSessionsTime());
+            redisUtils.set(AuthConstant.BLUEWIND_USER_SESSION_NUMS + ":" + username, String.valueOf(Integer.parseInt(num) - 1), AuthUtil.getSessionsTime());
         }
         // 删除掉redis里存的会话
-        redisUtils.del(AuthConstant.LAMBO_SSO_CODE_USERNAME + ":" + token);
+        redisUtils.del(AuthConstant.BLUEWIND_TOKEN_CACHE + ":" + token);
         return Result.ok("退出登录成功！");
     }
 

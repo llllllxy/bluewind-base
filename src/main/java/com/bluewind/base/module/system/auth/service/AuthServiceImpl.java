@@ -37,7 +37,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public int authentication(String username, String password) {
         // 是否超过最大尝试次数
-        String key = AuthConstant.LAMBO_SSO_LOGIN_NUMBER + ":" + username;
+        String key = AuthConstant.BLUEWIND_LOGIN_ATTEMPT_TIMES + ":" + username;
         String value = redisUtils.getStr(key);
         int num = 0;
         if (StringUtils.isNotBlank(value)) {
@@ -48,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 是否超过最大会话数
-        key = AuthConstant.LAMBO_SSO_USER_LOGIN_SESSION_NUM + ":" + username;
+        key = AuthConstant.BLUEWIND_USER_SESSION_NUMS + ":" + username;
         value = redisUtils.getStr(key);
         num = 0;
         if (StringUtils.isNotBlank(value)) {
@@ -85,7 +85,7 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public void recordFailUserLogin(String username) {
-        String redisKey = AuthConstant.LAMBO_SSO_LOGIN_NUMBER + ":" + username;
+        String redisKey = AuthConstant.BLUEWIND_LOGIN_ATTEMPT_TIMES + ":" + username;
         String value = redisUtils.getStr(redisKey);
         int num = StringUtils.isNotBlank(value) ? Integer.parseInt(value) : 0;
         num = num + 1;
