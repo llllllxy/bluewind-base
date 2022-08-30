@@ -3,13 +3,17 @@ package com.bluewind.base.common.config.auth.util;
 import com.bluewind.base.common.config.auth.constant.AuthConstant;
 import com.bluewind.base.common.util.redis.RedisUtils;
 import com.bluewind.base.common.util.spring.SpringContextUtil;
+import com.bluewind.base.common.util.web.CookieUtils;
+import com.bluewind.base.common.util.web.ServletUtils;
 import com.bluewind.base.module.system.auth.entity.UserInfo;
 import com.bluewind.base.module.system.auth.service.AuthService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 /**
@@ -47,6 +51,41 @@ public class UserInfoUtil {
             return authService;
         }
         return authService;
+    }
+
+
+    /**
+     * 获取当前登录用户的token会话串
+     *
+     * @return String
+     */
+    public static String getToken() {
+        HttpServletRequest httpServletRequest = ServletUtils.getRequest();
+        if (Objects.isNull(httpServletRequest)) {
+            return null;
+        }
+        String token = httpServletRequest.getHeader(AuthConstant.BLUEWIND_TOKEN_KEY);
+        if (StringUtils.isBlank(token)) {
+            token = CookieUtils.getCookie(httpServletRequest, AuthConstant.LAMBO_SSO_COOKIE_KEY);
+        }
+        return token;
+    }
+
+
+    /**
+     * 获取指定HttpServletRequest的token会话串
+     *
+     * @return String
+     */
+    public static String getToken(HttpServletRequest httpServletRequest) {
+        if (Objects.isNull(httpServletRequest)) {
+            return null;
+        }
+        String token = httpServletRequest.getHeader(AuthConstant.BLUEWIND_TOKEN_KEY);
+        if (StringUtils.isBlank(token)) {
+            token = CookieUtils.getCookie(httpServletRequest, AuthConstant.LAMBO_SSO_COOKIE_KEY);
+        }
+        return token;
     }
 
 
