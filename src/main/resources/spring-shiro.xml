@@ -33,9 +33,6 @@
     <!-- 重写authc过滤器 -->
     <bean id="authClientAuthenticationFilter" class="com.bluewind.base.common.config.auth.filter.AuthClientAuthenticationFilter"/>
 
-    <!-- 强制退出会话过滤器 -->
-    <!-- <bean id="authClientSessionForceLogoutFilter" class="AuthClientSessionForceLogoutFilter"/>-->
-
     <!-- 安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realms">
@@ -52,6 +49,7 @@
 
     <bean id="subjectFactory"
           class="com.bluewind.base.common.config.auth.subject.StatelessDefaultSubjectFactory"/>
+
     <!-- 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.session.mgt.DefaultSessionManager">
         <property name="sessionValidationSchedulerEnabled" value="false"/>
@@ -69,9 +67,6 @@
         <!-- Cookie名称 -->
         <property name="name" value="lambo-session-id"/>
     </bean>
-
-    <!-- 会话监听器 -->
-    <bean id="authClientSessionListener" class="com.bluewind.base.common.config.auth.listener.AuthClientSessionListener"/>
 
     <!-- session工厂 -->
     <bean id="authClientSessionFactory" class="com.bluewind.base.common.config.auth.session.AuthClientSessionFactory"/>
