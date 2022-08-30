@@ -31,6 +31,8 @@ public class RedisUtils {
     }
 
 
+
+    /*============================Common Start=============================*/
     /**
      * 指定缓存失效时间
      *
@@ -147,9 +149,10 @@ public class RedisUtils {
     public Set<String> keys(final String pattern) {
         return redisTemplate.keys(pattern.concat("*"));
     }
+    /*============================Common End=============================*/
 
 
-    /*============================String=============================*/
+    /*============================String Start=============================*/
     /**
      * 普通缓存获取
      *
@@ -162,7 +165,7 @@ public class RedisUtils {
 
 
     /**
-     * 普通缓存获取
+     * 普通缓存获取（直接转字符串）
      *
      * @param key 键
      * @return 值，返回String
@@ -201,7 +204,6 @@ public class RedisUtils {
     public boolean set(final String key, final Object value) {
         try {
             redisTemplate.opsForValue().set(key, value);
-            log.info("RedisUtil - set - 存入redis成功，key：{}，value：{}", key, value);
             return true;
         } catch (Exception e) {
             log.error("RedisUtil - set - 存入redis失败，Exception：{e}", e);
@@ -225,7 +227,6 @@ public class RedisUtils {
             } else {
                 set(key, value);
             }
-            log.info("RedisUtil - set - 存入redis成功，key：{}，value：{}", key, value);
             return true;
         } catch (Exception e) {
             log.error("RedisUtil - set - 存入redis失败，Exception：{e}", e);
@@ -255,7 +256,6 @@ public class RedisUtils {
             } else {
                 set(key, value);
             }
-            log.info("RedisUtil - set - 存入redis成功，key：{}，value：{}", key, value);
             return true;
         } catch (Exception e) {
             log.error("RedisUtil - set - 存入redis失败，Exception：{e}", e);
@@ -266,7 +266,7 @@ public class RedisUtils {
     /**
      * 批量写入数据
      * @param map
-     * @return
+     * @return true成功 false 失败
      */
     public boolean multiSet(Map<String, Object> map) {
         if (CollectionUtils.isEmpty(map)) {
@@ -274,7 +274,6 @@ public class RedisUtils {
         }
         try {
             redisTemplate.opsForValue().multiSet(map);
-            log.info("批量存入redis成功，map：{}", map);
             return true;
         } catch (Exception e) {
             log.error("RedisUtil - multiSet - 批量存入redis失败，Exception：{e}", e);
@@ -287,7 +286,7 @@ public class RedisUtils {
      * 根据key更新数据
      * @param key
      * @param value
-     * @return
+     * @return true成功 false 失败
      */
     public boolean update(final String key, Object value) {
         if (StringUtils.isEmpty(key)) {
@@ -304,7 +303,7 @@ public class RedisUtils {
 
 
     /**
-     * 递增
+     * 递增（将key所储存的值加上增量 increment；如果key不存在，那么key的值会先被初始化为0）
      *
      * @param key   键
      * @param delta 要增加几(大于0)
@@ -634,81 +633,6 @@ public class RedisUtils {
         }
     }
 
-    /**
-     * 将list放入缓存
-     *
-     * @param key   键
-     * @param value 值
-     * @return
-     */
-    public boolean lSet(String key, Object value) {
-        try {
-            redisTemplate.opsForList().rightPush(key, value);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * 将list放入缓存
-     *
-     * @param key   键
-     * @param value 值
-     * @param time  时间(秒)
-     * @return
-     */
-    public boolean lSet(String key, Object value, long time) {
-        try {
-            redisTemplate.opsForList().rightPush(key, value);
-            if (time > 0) {
-                expire(key, time);
-            }
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * 将list放入缓存
-     *
-     * @param key   键
-     * @param value 值
-     * @return
-     */
-    public boolean lSet(String key, List<Object> value) {
-        try {
-            redisTemplate.opsForList().rightPushAll(key, value);
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    /**
-     * 将list放入缓存
-     *
-     * @param key   键
-     * @param value 值
-     * @param time  时间(秒)
-     * @return
-     */
-    public boolean lSet(String key, List<Object> value, long time) {
-        try {
-            redisTemplate.opsForList().rightPushAll(key, value);
-            if (time > 0) {
-                expire(key, time);
-            }
-            return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     /**
      * 根据索引修改list中的某条数据
@@ -723,10 +647,164 @@ public class RedisUtils {
             redisTemplate.opsForList().set(key, index, value);
             return true;
         } catch (Exception e) {
+            log.error("RedisUtil - lUpdateIndex - Exception：{e}", e);
+            return false;
+        }
+    }
+
+
+    /**
+     * 将list放入缓存
+     *
+     * @param key   键
+     * @param value 值
+     * @return
+     */
+    public boolean lRightPush(String key, Object value) {
+        try {
+            redisTemplate.opsForList().rightPush(key, value);
+            return true;
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
     }
+
+    /**
+     * 将list放入缓存
+     *
+     * @param key   键
+     * @param value 值
+     * @param time  时间(秒)
+     * @return
+     */
+    public boolean lRightPush(String key, Object value, long time) {
+        try {
+            redisTemplate.opsForList().rightPush(key, value);
+            if (time > 0) {
+                expire(key, time);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 将list放入缓存
+     *
+     * @param key   键
+     * @param value 值
+     * @return
+     */
+    public boolean lRightPushAll(String key, List<Object> value) {
+        try {
+            redisTemplate.opsForList().rightPushAll(key, value);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 将list放入缓存
+     *
+     * @param key   键
+     * @param value 值
+     * @param time  时间(秒)
+     * @return
+     */
+    public boolean lRightPushAll(String key, List<Object> value, long time) {
+        try {
+            redisTemplate.opsForList().rightPushAll(key, value);
+            if (time > 0) {
+                expire(key, time);
+            }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    /**
+     * 将指定的值插入存储在键的列表的头部。
+     * 如果键不存在，则在执行推送操作之前将其创建为空列表。（从左边插入）
+     * @param key   键
+     * @param value 值
+     * @return Long 返回的结果为推送操作后的列表的长度
+     */
+    public Long lLeftPush(String key, Object value) {
+        try {
+            return redisTemplate.opsForList().leftPush(key, value);
+        } catch (Exception e) {
+            log.error("RedisUtil - lLeftPush - Exception：{e}", e);
+            return 0L;
+        }
+    }
+
+    /**
+     * 将指定的值插入存储在键的列表的头部。
+     * 如果键不存在，则在执行推送操作之前将其创建为空列表。（从左边插入）
+     * @param key   键
+     * @param value 值
+     * @param time  过期时间(秒)
+     * @return Long 返回的结果为推送操作后的列表的长度
+     */
+    public Long lLeftPush(String key, Object value, long time) {
+        try {
+            Long num = redisTemplate.opsForList().leftPush(key, value);
+            if (time > 0) {
+                expire(key, time);
+            }
+            return num;
+        } catch (Exception e) {
+            log.error("RedisUtil - lLeftPush - Exception：{e}", e);
+            return 0L;
+        }
+    }
+
+
+    /**
+     * 将所有指定的值插入存储在键的列表的头部。
+     * 如果键不存在，则在执行推送操作之前将其创建为空列表。（从左边插入）
+     * @param key   键
+     * @param value 值
+     * @return Long 返回的结果为推送操作后的列表的长度
+     */
+    public Long lLeftPushAll(String key, List<Object> value) {
+        try {
+            return redisTemplate.opsForList().leftPushAll(key, value);
+        } catch (Exception e) {
+            log.error("RedisUtil - lLeftPushAll - Exception：{e}", e);
+            return 0L;
+        }
+    }
+
+    /**
+     * 将所有指定的值插入存储在键的列表的头部。
+     * 如果键不存在，则在执行推送操作之前将其创建为空列表。（从左边插入）
+     * @param key   键
+     * @param value 值
+     * @param time  过期时间(秒)
+     * @return Long 返回的结果为推送操作后的列表的长度
+     */
+    public Long lLeftPushAll(String key, List<Object> value, long time) {
+        try {
+            Long num = redisTemplate.opsForList().leftPushAll(key, value);
+            if (time > 0) {
+                expire(key, time);
+            }
+            return num;
+        } catch (Exception e) {
+            log.error("RedisUtil - lLeftPushAll - Exception：{e}", e);
+            return 0L;
+        }
+    }
+
 
     /**
      * 移除N个值为value
@@ -745,6 +823,37 @@ public class RedisUtils {
             return 0;
         }
     }
+
+    /**
+     * 弹出最左边的元素并返回，弹出之后该值在列表中将不复存在
+     *
+     * @param key 键
+     * @return Object 弹出的元素
+     */
+    public Object lLeftPop(String key) {
+        try {
+            return redisTemplate.opsForList().leftPop(key);
+        } catch (Exception e) {
+            log.error("RedisUtils - lLeftPop - Exception：{e}", e);
+            return null;
+        }
+    }
+
+    /**
+     * 弹出最右边的元素并返回，弹出之后该值在列表中将不复存在
+     *
+     * @param key 键
+     * @return Object 弹出的元素
+     */
+    public Object lRightPop(String key) {
+        try {
+            return redisTemplate.opsForList().rightPop(key);
+        } catch (Exception e) {
+            log.error("RedisUtils - lRightPop - Exception：{e}", e);
+            return null;
+        }
+    }
+
     /*===============================list  end=============================*/
 
 
