@@ -169,7 +169,7 @@ public class RedisConfig {
 
         RedisSentinelConfiguration redisConfiguration = new RedisSentinelConfiguration();
         // 此处暂时写死，也可从配置文件中取
-        redisConfiguration.setMaster("master");
+        redisConfiguration.setMaster("master-1");
         redisConfiguration.setPassword(redisPassword);
         redisConfiguration.setDatabase(redisDbIndex);
 
