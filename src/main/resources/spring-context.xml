@@ -14,26 +14,6 @@
     <!--意思是property-placeholder只能配置一次，所以这里需要把所有的配置文件扫进去-->
     <context:property-placeholder location="classpath*:*.properties" file-encoding="UTF-8"/>
 
-
-    <!--    &lt;!&ndash;配置自动扫描，装载service，扫描com.bluewind.base.**.service下面得所有类以及所有子包下面的所有类&ndash;&gt;-->
-    <!--    <context:component-scan base-package="com.bluewind.base.**.service" use-default-filters="true">-->
-    <!--        &lt;!&ndash;这里要排除掉Controller的注解，Controller专门交给MVC去扫描，这样会就不会冲突&ndash;&gt;-->
-    <!--        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
-    <!--    </context:component-scan>-->
-
-    <!--    &lt;!&ndash;配置自动扫描，装载自定义切面aspect&ndash;&gt;-->
-    <!--    <context:component-scan base-package="com.bluewind.base.**.aspect" use-default-filters="true">-->
-    <!--        &lt;!&ndash;这里要排除掉Controller的注解，Controller专门交给MVC去扫描，这样会就不会冲突&ndash;&gt;-->
-    <!--        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
-    <!--    </context:component-scan>-->
-
-    <!--    &lt;!&ndash;配置自动扫描，装载配置类config&ndash;&gt;-->
-    <!--    <context:component-scan base-package="com.bluewind.base.**.config" use-default-filters="true">-->
-    <!--        &lt;!&ndash;这里要排除掉Controller的注解，Controller专门交给MVC去扫描，这样会就不会冲突&ndash;&gt;-->
-    <!--        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>-->
-    <!--    </context:component-scan>-->
-
-
     <!--配置自动扫描，扫描com.bluewind.base包下的所有类及其子包下的所有类（上面注释掉的仨是分类型分别扫描的，这里放到一起扫描，简单方便）-->
     <context:component-scan base-package="com.bluewind.base" use-default-filters="true">
         <!--这里要排除掉Controller的注解，Controller专门交给spring-mvc.xml去扫描，避免重复扫描-->
