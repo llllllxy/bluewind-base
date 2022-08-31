@@ -5,6 +5,7 @@ import com.bluewind.base.common.config.auth.util.SerializableUtil;
 import com.bluewind.base.common.util.redis.RedisUtils;
 import com.bluewind.base.common.util.spring.SpringContextUtil;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.ValidatingSession;
 import org.apache.shiro.session.mgt.eis.CachingSessionDAO;
@@ -121,7 +122,7 @@ public class AuthClientSessionDao extends CachingSessionDAO {
      * @return
      */
     public int forceout(String ids) {
-        String[] sessionIds = ids.split(",");
+        String[] sessionIds = StringUtils.split(ids, ",");
         for (String sessionId : sessionIds) {
             // 会话增加强制退出属性标识，当此会话访问系统时，判断有该标识，则退出登录
             String session = getRedisUtils().getStr(AuthConstant.BLUEWIND_SSO_SHIRO_SESSION_ID + ":" + sessionId);

@@ -79,7 +79,7 @@ public class RedisConfig {
             throw new IllegalStateException("the urls of redis is not configured");
         }
 
-        String[] urls = redisUrl.split(HOST_PORT_SEPARATOR);
+        String[] urls = StringUtils.split(redisUrl, HOST_PORT_SEPARATOR);
         String hostName = urls[0];
         int port = Integer.parseInt(urls[1]);
 
@@ -107,7 +107,7 @@ public class RedisConfig {
     /**
      * Cluster集群模式（测试好用）
      * 适用：针对海量数据+高并发+高可用的场景，解决单机Redis容量有限的问题，将Redis的数据根据一定的规则分配到多台机器
-     *      一般集群建议搭建三主三从架构，三主提供服务，三从提供备份功能
+     * 一般集群建议搭建三主三从架构，三主提供服务，三从提供备份功能
      *
      * @return LettuceConnectionFactory
      */
@@ -122,9 +122,9 @@ public class RedisConfig {
         RedisClusterConfiguration redisConfiguration = new RedisClusterConfiguration();
         redisConfiguration.setPassword(redisPassword);
 
-        if (redisUrl.split(REDIS_URL_SEPARATOR).length > 1) {
-            for (String redisUrl : redisUrl.split(REDIS_URL_SEPARATOR)) {
-                String[] urls = redisUrl.split(HOST_PORT_SEPARATOR);
+        if (StringUtils.split(redisUrl, REDIS_URL_SEPARATOR).length > 1) {
+            for (String item : StringUtils.split(redisUrl, REDIS_URL_SEPARATOR)) {
+                String[] urls = StringUtils.split(item, HOST_PORT_SEPARATOR);
                 String host = urls[0];
                 int port = Integer.parseInt(urls[1]);
 
@@ -155,7 +155,7 @@ public class RedisConfig {
     /**
      * Sentinel哨兵模式（暂未测试）
      * 适用：Redis的高可用性解决方案，主从架构，选举模式
-     *     当sentinel发现master节点挂了以后，sentinel就会从slave中重新选举一个master
+     * 当sentinel发现master节点挂了以后，sentinel就会从slave中重新选举一个master
      *
      * @return LettuceConnectionFactory
      */
@@ -173,9 +173,9 @@ public class RedisConfig {
         redisConfiguration.setPassword(redisPassword);
         redisConfiguration.setDatabase(redisDbIndex);
 
-        if (redisUrl.split(REDIS_URL_SEPARATOR).length > 1) {
-            for (String redisUrl : redisUrl.split(REDIS_URL_SEPARATOR)) {
-                String[] urls = redisUrl.split(HOST_PORT_SEPARATOR);
+        if (StringUtils.split(redisUrl, REDIS_URL_SEPARATOR).length > 1) {
+            for (String item : StringUtils.split(redisUrl, REDIS_URL_SEPARATOR)) {
+                String[] urls = StringUtils.split(item, HOST_PORT_SEPARATOR);
                 String host = urls[0];
                 int port = Integer.parseInt(urls[1]);
 
@@ -204,6 +204,7 @@ public class RedisConfig {
 
     /**
      * 配置连接池参数
+     *
      * @return
      */
     private GenericObjectPoolConfig poolConfig() {
@@ -217,7 +218,6 @@ public class RedisConfig {
         genericObjectPoolConfig.setTestWhileIdle(testWhileIdle);
         return genericObjectPoolConfig;
     }
-
 
 
     /**

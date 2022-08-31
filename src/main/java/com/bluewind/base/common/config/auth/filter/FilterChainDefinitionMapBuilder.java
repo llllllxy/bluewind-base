@@ -35,12 +35,12 @@ public class FilterChainDefinitionMapBuilder {
         } catch (Exception e) {
 
         }
-        // 此处声明关系从配置文件获取，格式例如：/login:anon;/loginout:anon;
+        // 从配置文件获取部分接口配置，格式例如：/login:anon;/loginout:anon;
         if (StringUtils.isNotBlank(security)) {
-            String[] nologin = security.split(";");
+            String[] nologin = StringUtils.split(security, ";");
             for (int i = 0; i < nologin.length; i++) {
                 String temp = nologin[i];
-                String[] value = temp.split(":");
+                String[] value = StringUtils.split(temp, ":");
                 if (value.length == 2) {
                     map.put(value[0].trim(), value[1].trim());
                 }

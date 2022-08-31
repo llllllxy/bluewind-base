@@ -43,7 +43,7 @@ public class XssFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         if (StringUtils.isNotEmpty(tempExcludes)) {
-            String[] url = tempExcludes.split(",");
+            String[] url = StringUtils.split(tempExcludes, ",");
             for (int i = 0; url != null && i < url.length; i++) {
                 excludes.add(url[i]);
             }
