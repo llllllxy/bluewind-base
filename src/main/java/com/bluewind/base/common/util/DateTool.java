@@ -38,9 +38,7 @@ public class DateTool {
      * @return dateTimeStr
      */
     public static String getCurrentTime() {
-        LocalDateTime dateTime = LocalDateTime.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        return dateTimeFormatter.format(dateTime);
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
     }
 
 
@@ -50,9 +48,7 @@ public class DateTool {
      * @return
      */
     public static String getCurrentDate() {
-        LocalDate today = LocalDate.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        return dateTimeFormatter.format(today);
+        return LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
     }
 
 
@@ -621,7 +617,7 @@ public class DateTool {
 
 
     public static void main(String[] args) {
-
+        System.out.println(getCurrentTime());
 
     }
 }
