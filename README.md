@@ -11,6 +11,7 @@ bluewind-base，一个基于Spring5+MyBatis+Thymeleaf整合的javaWeb开发脚�
 - mybatis 3.4.6 持久层框架
 - pagehelper 5.0.1 mybatis分页插件
 - swagger-ui 2.9.2
+- shiro 1.9.1
 
 ### 实现功能
 - 整合MyBatis实现数据库查询和分页插件pagehelper
@@ -19,6 +20,7 @@ bluewind-base，一个基于Spring5+MyBatis+Thymeleaf整合的javaWeb开发脚�
 - 整合了thymeleaf 模板引擎，实现网页的渲染展示
 - 整合了多数据源，可用注解灵活切换主从数据源
 - 封装Json统一返回消息
+- 整合shiro，并且基于redis实现了分布式会话鉴权等操作
 
 ### 运行环境
 - jdk8
