@@ -19,6 +19,7 @@ public class FilterChainDefinitionMapBuilder {
         // 开放登录的相关接口
         map.put("/login", "anon");
         map.put("/logout", "anon");
+        // 开放匿名接口
         map.put("/anon/**", "anon");
         // 开放swagger-ui的访问限制
         map.put("/resources/**", "anon");
@@ -29,17 +30,16 @@ public class FilterChainDefinitionMapBuilder {
         map.put("/swagger-ui.html", "anon");
         map.put("/doc.html", "anon");
         // 额外的一些需要开放的接口，从配置文件里取
-        String security = null;
+        String excludeTargets = null;
         try {
-            security = PropertiesFileUtil.getInstance("security").get("security.authorization.excludeTargets");
-        } catch (Exception e) {
+            excludeTargets = PropertiesFileUtil.getInstance("security").get("security.authorization.excludeTargets");
+        } catch (Exception ignored) {
 
         }
         // 从配置文件获取部分接口配置，格式例如：/login:anon;/loginout:anon;
-        if (StringUtils.isNotBlank(security)) {
-            String[] nologin = StringUtils.split(security, ";");
-            for (int i = 0; i < nologin.length; i++) {
-                String temp = nologin[i];
+        if (StringUtils.isNotBlank(excludeTargets)) {
+            String[] nologin = StringUtils.split(excludeTargets, ";");
+            for (String temp : nologin) {
                 String[] value = StringUtils.split(temp, ":");
                 if (value.length == 2) {
                     map.put(value[0].trim(), value[1].trim());
