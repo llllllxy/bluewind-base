@@ -16,7 +16,7 @@ import java.util.Set;
 /**
  * @author liuxingyu01
  * @date 2022-08-26 15:07
- * @description
+ * @description AuthServiceImpl
  **/
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -36,7 +36,7 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public int authentication(String username, String password) {
-        // 是否超过最大尝试次数
+        // 校验--是否超过最大尝试次数
         String key = AuthConstant.BLUEWIND_LOGIN_ATTEMPT_TIMES + ":" + username;
         String value = redisUtils.getStr(key);
         int num = 0;
@@ -47,18 +47,18 @@ public class AuthServiceImpl implements AuthService {
             return AuthResultConstant.USER_IS_LOCKED;
         }
 
-        // 是否超过最大会话数
+        // 校验--是否超过最大会话数
         key = AuthConstant.BLUEWIND_USER_SESSION_NUMS + ":" + username;
         value = redisUtils.getStr(key);
         num = 0;
         if (StringUtils.isNotBlank(value)) {
             num = Integer.parseInt(value);
         }
-        if (AuthUtil.getSessionsMaxNum() != -1 && num > AuthUtil.getSessionsMaxNum()) { // 超过最大会话数量，不允许登录了
+        if (AuthUtil.getSessionsMaxNum() != -1 && num > AuthUtil.getSessionsMaxNum()) { // 超过最大会话数量，不允许再登录了
             return AuthResultConstant.EXCEED_SESSIONS_MAXNUM;
         }
 
-        // 开始校验用户名和密码
+        // 校验--用户名和密码
         UserInfo userInfo = authMapper.getUserInfo(username);
         if (userInfo == null) {
             return AuthResultConstant.USER_NOT_EXIST; // 用户不存在
@@ -67,7 +67,7 @@ public class AuthServiceImpl implements AuthService {
         if (1 == userInfo.getStatus()) {
             return AuthResultConstant.USER_IS_INVALID; // 用户已被禁用或失效
         }
-        // 判断密码是否等于
+        // 判断密码是否equal
         String localPassword = userInfo.getPassword();
         if (StringUtils.isEmpty(localPassword) || !localPassword.equals(password)) {
             return AuthResultConstant.USERNAME_AND_PASSWORD_NOT_MATCH; // 用户名或密码不正确
@@ -102,6 +102,7 @@ public class AuthServiceImpl implements AuthService {
     public UserInfo getUserInfo(String username) {
         return authMapper.getUserInfo(username);
     }
+
 
     @Override
     public Set<String> listRolePermissionByUserId(Long userId) {

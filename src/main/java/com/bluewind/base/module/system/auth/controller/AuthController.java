@@ -120,10 +120,16 @@ public class AuthController extends BaseController {
 
         String username = redisUtils.getStr(AuthConstant.BLUEWIND_TOKEN_CACHE + ":" + token);
 
-        String num = redisUtils.getStr(AuthConstant.BLUEWIND_USER_SESSION_NUMS + ":" + username);
-        if (StringUtils.isNotBlank(num)) {
-            redisUtils.set(AuthConstant.BLUEWIND_USER_SESSION_NUMS + ":" + username, String.valueOf(Integer.parseInt(num) - 1), AuthUtil.getSessionsTime());
+        try {
+            String num = redisUtils.getStr(AuthConstant.BLUEWIND_USER_SESSION_NUMS + ":" + username);
+            // 当前账户会话数量减1
+            if (StringUtils.isNotBlank(num)) {
+                redisUtils.set(AuthConstant.BLUEWIND_USER_SESSION_NUMS + ":" + username, String.valueOf(Integer.parseInt(num) - 1), AuthUtil.getSessionsTime());
+            }
+        } catch (Exception e) {
+            logger.error("AuthController - logout - {}清除会话数量失败，Exception：{e}", username, e);
         }
+
         // 删除掉redis里存的会话
         redisUtils.del(AuthConstant.BLUEWIND_TOKEN_CACHE + ":" + token);
         return Result.ok("退出登录成功！");
