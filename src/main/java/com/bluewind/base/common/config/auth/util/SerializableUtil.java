@@ -12,7 +12,7 @@ import java.io.ObjectOutputStream;
 /**
  * @author liuxingyu01
  * @date 2022-08-26 13:22
- * @description Session序列化工具
+ * @description Session序列化工具类
  **/
 public class SerializableUtil {
 

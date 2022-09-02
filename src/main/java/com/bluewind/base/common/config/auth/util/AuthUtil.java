@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * @author liuxingyu01
  * @date 2022-08-26 14:48
- * @description
+ * @description AuthUtil会话工具类
  **/
 public class AuthUtil {
     private static final Logger log = LoggerFactory.getLogger(AuthUtil.class);
