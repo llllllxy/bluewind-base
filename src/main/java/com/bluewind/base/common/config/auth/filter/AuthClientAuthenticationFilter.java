@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * @author liuxingyu01
  * @date 2022-08-26 14:33
- * @description
+ * @description 自定义会话过滤器（支持redis会话共享）
  **/
 public class AuthClientAuthenticationFilter extends AuthenticationFilter {
     private static final Logger logger = LoggerFactory.getLogger(AuthClientAuthenticationFilter.class);
@@ -41,10 +41,12 @@ public class AuthClientAuthenticationFilter extends AuthenticationFilter {
         return redisUtils;
     }
 
+
     @Override
     protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
         return this.validateClient(request, response);
     }
+
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) {
@@ -56,7 +58,8 @@ public class AuthClientAuthenticationFilter extends AuthenticationFilter {
     /**
      * 检查登录状态
      *
-     * @param request
+     * @param request ServletRequest
+     * @return true or false
      */
     private boolean validateClient(ServletRequest request, ServletResponse response) {
         HttpServletRequest httpServletRequest = WebUtils.toHttp(request);
@@ -78,7 +81,7 @@ public class AuthClientAuthenticationFilter extends AuthenticationFilter {
      * @param request ServletRequest
      * @param response ServletResponse
      * @param token String
-     * @return
+     * @return true or false
      */
     private boolean isLogin(ServletRequest request, ServletResponse response, String token) {
         if (StringUtils.isNotBlank(token)) {
