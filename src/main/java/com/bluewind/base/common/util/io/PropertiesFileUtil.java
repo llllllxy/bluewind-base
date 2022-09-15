@@ -51,7 +51,7 @@ public class PropertiesFileUtil {
     private PropertiesFileUtil(String name) {
         this.loadTime = new Date();
         try {
-            this.resource = new EncodedResource(ResourceUtil.getResource("/" + name + ".properties"),"UTF-8");
+            this.resource = new EncodedResource(ResourceUtil.getResource("/" + name + ".properties"), "UTF-8");
 
             this.properties = PropertiesLoaderUtils.loadProperties(resource);
         } catch (IOException e) {
@@ -80,7 +80,7 @@ public class PropertiesFileUtil {
         return conf;
     }
 
-    public static boolean exists(String name){
+    public static boolean exists(String name) {
         Resource resource = ResourceUtil.getResource("/" + name + ".properties");
         return resource.exists();
     }
@@ -93,7 +93,7 @@ public class PropertiesFileUtil {
      * @return
      */
     public String get(String key) {
-        if(properties == null){
+        if (properties == null) {
             return null;
         }
         String value = properties.getProperty(key);
@@ -105,7 +105,7 @@ public class PropertiesFileUtil {
     }
 
     public Map<String, Object> getMap() {
-        if(properties == null){
+        if (properties == null) {
             return null;
         }
         Map<String, Object> map = new HashMap<>();
