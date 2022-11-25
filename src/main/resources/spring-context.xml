@@ -11,7 +11,7 @@
 
     <!--属性文件的读取，这里读取数据库连接相关配置-->
     <!--context:property-placeholder标签提供了一种优雅的外在化参数配置的方式，不过该标签在Spring配置文件中只能存在一份-->
-    <!--意思是property-placeholder只能配置一次，所以这里需要把所有的配置文件扫进去-->
+    <!--但是property-placeholder只能配置一次，所以这里需要把所有的配置文件扫进去-->
     <context:property-placeholder location="classpath*:*.properties" file-encoding="UTF-8"/>
 
     <!--配置自动扫描，扫描com.bluewind.base包下的所有类及其子包下的所有类（上面注释掉的仨是分类型分别扫描的，这里放到一起扫描，简单方便）-->
