@@ -11,7 +11,7 @@
  Target Server Version : 50725
  File Encoding         : 65001
 
- Date: 01/09/2022 18:12:02
+ Date: 01/12/2022 09:53:38
 */
 
 SET NAMES utf8mb4;
@@ -22,20 +22,20 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_permission`;
 CREATE TABLE `sys_permission`  (
-  `permission_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '菜单id',
-  `parent_id` bigint(20) NOT NULL COMMENT '父级菜单ID，一级菜单为0',
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '菜单名称',
-  `path` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单路径',
-  `permission_value` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限资源值标识',
-  `type` int(11) NOT NULL COMMENT '类型   0：目录   1：菜单   2：按钮',
-  `icon` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单图标',
-  `order_num` int(11) NOT NULL COMMENT '排序',
-  `status` tinyint(4) NOT NULL COMMENT '状态 0:正常，1:停用',
-  `created_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
-  `created_by` bigint(20) NOT NULL COMMENT '创建用户id',
-  `updated_by` bigint(20) NULL DEFAULT NULL COMMENT '修改用户id',
-  PRIMARY KEY (`permission_id`) USING BTREE
+                                   `permission_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '菜单id',
+                                   `parent_id` bigint(20) NOT NULL COMMENT '父级菜单ID，一级菜单为0',
+                                   `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '菜单名称',
+                                   `path` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单路径',
+                                   `permission_value` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '权限资源值标识',
+                                   `type` int(11) NOT NULL COMMENT '类型   0：目录   1：菜单   2：按钮',
+                                   `icon` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '菜单图标',
+                                   `order_num` int(11) NOT NULL COMMENT '排序',
+                                   `status` tinyint(4) NOT NULL COMMENT '状态 0:正常，1:停用',
+                                   `created_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+                                   `created_by` bigint(20) NOT NULL COMMENT '创建用户id',
+                                   `updated_by` bigint(20) NULL DEFAULT NULL COMMENT '修改用户id',
+                                   PRIMARY KEY (`permission_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单管理' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -51,16 +51,16 @@ INSERT INTO `sys_permission` VALUES (4, 2, '修改', '/system/user/edit', 'syste
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role`  (
-  `role_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色id',
-  `role_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
-  `role_sign` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色标识',
-  `status` tinyint(4) NOT NULL COMMENT '状态 0:正常，1:停用',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `created_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
-  `created_by` bigint(20) NOT NULL COMMENT '创建用户id',
-  `updated_by` bigint(20) NULL DEFAULT NULL COMMENT '修改用户id',
-  PRIMARY KEY (`role_id`) USING BTREE
+                             `role_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '角色id',
+                             `role_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '角色名称',
+                             `role_sign` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '角色标识',
+                             `status` tinyint(4) NOT NULL COMMENT '状态 0:正常，1:停用',
+                             `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+                             `created_at` datetime(0) NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                             `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+                             `created_by` bigint(20) NOT NULL COMMENT '创建用户id',
+                             `updated_by` bigint(20) NULL DEFAULT NULL COMMENT '修改用户id',
+                             PRIMARY KEY (`role_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统角色' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -74,12 +74,12 @@ INSERT INTO `sys_role` VALUES (2, '测试角色', 'test', 0, '测试角色', '20
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_role_permission`;
 CREATE TABLE `sys_role_permission`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '记录id',
-  `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
-  `permission_id` bigint(20) NULL DEFAULT NULL COMMENT '菜单ID',
-  `created_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                        `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '记录id',
+                                        `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
+                                        `permission_id` bigint(20) NULL DEFAULT NULL COMMENT '菜单ID',
+                                        `created_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                        `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+                                        PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色与菜单对应关系' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -95,23 +95,23 @@ INSERT INTO `sys_role_permission` VALUES (4, 1, 4, '2022-08-30 10:29:42', '2022-
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`  (
-  `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户id',
-  `dept_id` bigint(20) NOT NULL COMMENT '所属部门机构',
-  `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
-  `nickname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '姓名(昵称)',
-  `email` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `mobile` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
-  `sex` tinyint(4) NOT NULL COMMENT '性别 0:男，1:女，2:未知',
-  `status` tinyint(4) NULL DEFAULT NULL COMMENT '状态 0:正常，1:停用',
-  `avatar_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '头像上传 0:未上传 1:上传',
-  `avatar` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像url(或者文档id)',
-  `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
-  `created_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
-  `created_by` bigint(20) NULL DEFAULT NULL COMMENT '创建用户id',
-  `updated_by` bigint(20) NULL DEFAULT NULL COMMENT '修改用户id',
-  PRIMARY KEY (`user_id`) USING BTREE
+                             `user_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户id',
+                             `dept_id` bigint(20) NOT NULL COMMENT '所属部门机构',
+                             `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户名',
+                             `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '密码',
+                             `nickname` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '姓名(昵称)',
+                             `email` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
+                             `mobile` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
+                             `sex` tinyint(4) NOT NULL COMMENT '性别 0:男，1:女，2:未知',
+                             `status` tinyint(4) NULL DEFAULT NULL COMMENT '状态 0:正常，1:停用',
+                             `avatar_status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '头像上传 0:未上传 1:上传',
+                             `avatar` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像url(或者文档id)',
+                             `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '备注',
+                             `created_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                             `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+                             `created_by` bigint(20) NULL DEFAULT NULL COMMENT '创建用户id',
+                             `updated_by` bigint(20) NULL DEFAULT NULL COMMENT '修改用户id',
+                             PRIMARY KEY (`user_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '系统用户' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -124,12 +124,12 @@ INSERT INTO `sys_user` VALUES (1, 898934823, 'admin', '6172b7c9803ac7dc3c31b0bcd
 -- ----------------------------
 DROP TABLE IF EXISTS `sys_user_role`;
 CREATE TABLE `sys_user_role`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '记录id',
-  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
-  `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
-  `created_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE
+                                  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '记录id',
+                                  `user_id` bigint(20) NULL DEFAULT NULL COMMENT '用户ID',
+                                  `role_id` bigint(20) NULL DEFAULT NULL COMMENT '角色ID',
+                                  `created_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                  `updated_at` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+                                  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户角色对应表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
