@@ -552,15 +552,22 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
 
     /**
-     * object转String
+     * object转String，转不成的话返回“”
      *
-     * @param object
-     * @return
+     * @param object 待转换对象
+     * @return String
      */
     public static String getString(Object object) {
         return getString(object, "");
     }
 
+    /**
+     * object转String，转不成的话返回defaultValue
+     *
+     * @param object       待转换对象
+     * @param defaultValue 默认值
+     * @return String
+     */
     public static String getString(Object object, String defaultValue) {
         if (null == object) {
             return defaultValue;
@@ -574,15 +581,22 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
 
     /**
-     * object转Integer
+     * object转Integer，转不成的话返回-1
      *
-     * @param object
-     * @return
+     * @param object 待转换对象
+     * @return int
      */
     public static int getInt(Object object) {
         return getInt(object, -1);
     }
 
+    /**
+     * object转int，转不成的话返回defaultValue
+     *
+     * @param object       待转换对象
+     * @param defaultValue 默认值
+     * @return int
+     */
     public static int getInt(Object object, Integer defaultValue) {
         if (null == object) {
             return defaultValue;
@@ -596,15 +610,23 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
 
 
     /**
-     * object转Boolean
+     * object转Boolean，转不成的话返回false
      *
-     * @param object
-     * @return
+     * @param object 待转换对象
+     * @return boolean
      */
     public static boolean getBoolean(Object object) {
         return getBoolean(object, false);
     }
 
+
+    /**
+     * object转boolean，转不成的话返回defaultValue
+     *
+     * @param object       待转换对象
+     * @param defaultValue 默认值
+     * @return boolean
+     */
     public static boolean getBoolean(Object object, Boolean defaultValue) {
         if (null == object) {
             return defaultValue;
@@ -641,7 +663,7 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         if ("0".equals(str)) {
             return true;
         } else {
-            for (int i = str.length(); --i >= 0;) {
+            for (int i = str.length(); --i >= 0; ) {
                 int chr = str.charAt(i);
                 if (chr < 48 || chr > 57)
                     return false;
