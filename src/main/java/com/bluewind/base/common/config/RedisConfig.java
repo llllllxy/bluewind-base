@@ -39,7 +39,7 @@ public class RedisConfig {
 
     private static final String HOST_PORT_SEPARATOR = ":";
 
-    @Value("${redis.type}") // 连接类型，standalone单机，cluster集群
+    @Value("${redis.type}") // 连接类型，standalone单机，cluster集群，sentinel哨兵
     private String redisType;
     @Value("${redis.url}")
     private String redisUrl;
