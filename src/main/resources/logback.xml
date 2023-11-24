@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <configuration>
     <!--定义日志文件输出地址-->
-    <property name="LOG_ERROR_HOME" value="log/error"/>
-    <property name="LOG_INFO_HOME" value="log/info"/>
+    <property name="LOG_ERROR_HOME" value="/logs/error"/>
+    <property name="LOG_INFO_HOME" value="/logs/info"/>
 
     <!--通过appender标签指定日志的收集策略，我们会定义三个收集策略：控制台输出、普通信息文件输出、错误信息文件输出-->
     <!--name属性指定appender命名-->
@@ -45,7 +45,7 @@
         <!--标签指定收集策略，比如基于时间进行收集-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--标签指定生成日志保存地址，通过这样配置已经实现了分类分天收集日志的目标了-->
-            <fileNamePattern>${LOG_INFO_HOME}//%d.log</fileNamePattern>
+            <fileNamePattern>${LOG_INFO_HOME}/%d.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
     </appender>
@@ -60,7 +60,7 @@
         </encoder>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${LOG_ERROR_HOME}//%d.log</fileNamePattern>
+            <fileNamePattern>${LOG_ERROR_HOME}/%d.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
     </appender>
